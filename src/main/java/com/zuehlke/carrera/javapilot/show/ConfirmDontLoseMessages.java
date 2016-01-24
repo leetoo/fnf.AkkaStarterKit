@@ -30,7 +30,7 @@ public class ConfirmDontLoseMessages {
     final static String QUEUE_NAME = "confirm-test";
     static ConnectionFactory connectionFactory;
 
-    public static void main1(String[] args)
+    public static void main2(String[] args)
             throws IOException, InterruptedException
     {
         if (args.length > 0) {
@@ -45,7 +45,7 @@ public class ConfirmDontLoseMessages {
         (new Thread(new Publisher())).start();
     }
 
-    public static void main(String[] args)
+    public static void main1(String[] args)
             throws IOException, InterruptedException, TimeoutException {
 
         connectionFactory = new ConnectionFactory();
