@@ -95,7 +95,7 @@ public class PilotApplication implements CommandLineRunner{
         CommandLineParser parser = new PosixParser();
         CommandLine cmd = parser.parse(options, arglist.toArray(new String[ arglist.size()]));
 
-        String design = "Budapest";
+        String design = "Dubai";
 
         if ( cmd.hasOption("i")) {
             team = cmd.getOptionValue("i");
