@@ -9,8 +9,8 @@ angular.module('simulator')
         $scope.doesExist = false;
         $scope.raceTrackId= "<raceTrackID>";
 
-        $scope.selectedDesign = "Dubai";
-        $scope.availableDesigns = [ $scope.selectedDesign, "Berlin", "Oerlikon", "Hollywood", "Budapest"];
+        $scope.selectedDesign = "Budapest";
+        $scope.availableDesigns = [ $scope.selectedDesign, "Berlin", "Oerlikon", "Hollywood"];
 
         $scope.connected = false;
 
