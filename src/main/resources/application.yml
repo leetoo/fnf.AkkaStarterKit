@@ -4,7 +4,6 @@ spring:
 
 server:       # Note that the port MUST be 80 to work in SC cloud!
   port: 8081  # Note that the port SHOULD NOT be 80 to work locally.
-  #port: 80   # for SC Cloud
 
 javapilot:
     name:           starterkit  # Id of this simulator. Should be unique.

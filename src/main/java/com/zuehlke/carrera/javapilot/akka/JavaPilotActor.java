@@ -4,15 +4,15 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
+import com.zuehlke.carrera.javapilot.akka.experimental.PowerUpUntilPenalty;
 import com.zuehlke.carrera.javapilot.akka.experimental.ThresholdConfiguration;
 import com.zuehlke.carrera.javapilot.config.PilotProperties;
 import com.zuehlke.carrera.javapilot.services.EndpointAnnouncement;
 import com.zuehlke.carrera.javapilot.services.PilotToRelayConnection;
 import com.zuehlke.carrera.relayapi.messages.*;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
 
 /**
  *  Central actor responsible for driving the car. All data gets here and all decisions are finally made here.
@@ -22,9 +22,7 @@ public class JavaPilotActor extends UntypedActor {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaPilotActor.class);
     private final PilotProperties properties;
 
-    private ActorRef sensorEntryPoint;
-    private ActorRef velocityEntryPoint;
-    private ActorRef penaltyEntryPoint;
+    private ActorRef strategy;
 
     private PilotToRelayConnection relayConnection;
 
@@ -32,15 +30,7 @@ public class JavaPilotActor extends UntypedActor {
 
         this.properties = properties;
 
-        createTopology ();
-    }
-
-    private void createTopology() {
-        Map<String, ActorRef> entryPoints = new PilotTopology(getSelf(), getContext().system()).create();
-
-        this.sensorEntryPoint = entryPoints.get(PilotTopology.SENSOR_ENTRYPOINT);
-        this.velocityEntryPoint = entryPoints.get(PilotTopology.VELOCITY_ENTRYPOINT);
-        this.penaltyEntryPoint = entryPoints.get(PilotTopology.PENALTY_ENTRYPOINT);
+        strategy = getContext().actorOf(PowerUpUntilPenalty.props(getSelf(), 1500));
     }
 
 
@@ -62,10 +52,10 @@ public class JavaPilotActor extends UntypedActor {
         try {
 
             if (message instanceof RaceStartMessage) {
-                handleRaceStart((RaceStartMessage) message);
+                handleRaceStart();
 
             } else if (message instanceof RaceStopMessage) {
-                handleRaceStop((RaceStopMessage) message);
+                handleRaceStop();
 
             } else if (message instanceof SensorEvent) {
                 handleSensorEvent((SensorEvent) message);
@@ -86,7 +76,7 @@ public class JavaPilotActor extends UntypedActor {
                 handlePenaltyMessage ((PenaltyMessage) message );
 
             } else if ( message instanceof ThresholdConfiguration) {
-                sensorEntryPoint.forward(message, getContext());
+                strategy.forward(message, getContext());
 
             } else if ( message instanceof RoundTimeMessage ) {
                 handleRoundTime((RoundTimeMessage) message);
@@ -114,7 +104,7 @@ public class JavaPilotActor extends UntypedActor {
     }
 
     private void handlePenaltyMessage(PenaltyMessage message) {
-        penaltyEntryPoint.forward(message, getContext());
+        strategy.forward(message, getContext());
     }
 
     /**
@@ -137,7 +127,7 @@ public class JavaPilotActor extends UntypedActor {
         if ( message.getVelocity() == -999 ) {
             handleSample(message);
         } else {
-            velocityEntryPoint.forward(message, getContext());
+            strategy.forward(message, getContext());
         }
     }
 
@@ -145,7 +135,7 @@ public class JavaPilotActor extends UntypedActor {
         if ( isSample ( message ) ) {
             handleSample(message);
         } else {
-            sensorEntryPoint.forward(message, getContext());
+            strategy.forward(message, getContext());
         }
     }
 
@@ -176,13 +166,13 @@ public class JavaPilotActor extends UntypedActor {
     }
 
 
-    private void handleRaceStop(RaceStopMessage message) {
+    private void handleRaceStop() {
         LOGGER.info("received race stop");
     }
 
-    private void handleRaceStart(RaceStartMessage message) {
-        createTopology();
+    private void handleRaceStart() {
+        strategy = getContext().actorOf(PowerUpUntilPenalty.props(getSelf(), 1500));
         long now = System.currentTimeMillis();
-        LOGGER.info("received race start");
+        LOGGER.info("received race start at " + new LocalDateTime(now).toString());
     }
 }

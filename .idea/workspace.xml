@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2c614dfa-08c7-4575-9320-19e793b8d7a0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/public/.gitignore" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testdata/22221617/events" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testdata/22221617/penalties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testdata/22221617/power" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testdata/22221617/start" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testdata/22221617/velocities" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="2c614dfa-08c7-4575-9320-19e793b8d7a0" name="Default" comment="merge and some fixes">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/PilotTopology.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/PilotApplication.java" afterPath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/PilotApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/io/RaceRecorderPlayer.java" afterPath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/io/RaceRecorderPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/services/SimulatorService.java" afterPath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/services/SimulatorService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java" afterPath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/public/.gitignore" afterPath="$PROJECT_DIR$/src/main/resources/public/.gitignore" />
     </list>
     <ignored path="fnf.starterkit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,9 +33,11 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="178" column="58" selection-start-line="178" selection-start-column="58" selection-end-line="178" selection-end-column="58" />
+              <caret line="69" column="75" selection-start-line="69" selection-start-column="75" selection-end-line="69" selection-end-column="75" />
               <folding>
-                <element signature="e#6315#6316#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#5813#5814#0" expanded="true" />
+                <element signature="e#5862#5863#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -76,91 +67,33 @@
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-0.65384614">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding>
-                <marker date="1456346813000" expanded="true" signature="59:93422" placeholder="..." />
-                <marker date="1456346813000" expanded="true" signature="98:192" placeholder="..." />
-                <marker date="1456346813000" expanded="true" signature="98:267" placeholder="..." />
-                <marker date="1456346813000" expanded="true" signature="192:267" placeholder="..." />
-                <marker date="1456346813000" expanded="true" signature="90662:90750" placeholder="..." />
-                <marker date="1456346813000" expanded="true" signature="90687:90704" placeholder="..." />
+                <marker date="1456347514000" expanded="true" signature="59:94307" placeholder="..." />
+                <marker date="1456347514000" expanded="true" signature="98:191" placeholder="..." />
+                <marker date="1456347514000" expanded="true" signature="91572:91589" placeholder="..." />
+                <marker date="1456347514000" expanded="true" signature="91572:91620" placeholder="..." />
+                <marker date="1456347514000" expanded="true" signature="91572:91635" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.34979424">
-              <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RaceRecorderPlayer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/io/RaceRecorderPlayer.java">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#2292#2293#0" expanded="false" />
-                <element signature="e#2345#2346#0" expanded="false" />
-                <element signature="e#2391#2392#0" expanded="false" />
-                <element signature="e#2443#2444#0" expanded="false" />
-                <element signature="e#2492#2493#0" expanded="false" />
-                <element signature="e#2549#2550#0" expanded="false" />
-                <element signature="e#2597#2598#0" expanded="false" />
-                <element signature="e#2655#2656#0" expanded="false" />
-                <element signature="e#9941#9942#0" expanded="false" />
-                <element signature="e#9988#9989#0" expanded="false" />
-                <element signature="e#10121#10122#0" expanded="false" />
-                <element signature="e#10173#10174#0" expanded="false" />
-                <element signature="e#10214#10215#0" expanded="false" />
-                <element signature="e#10251#10252#0" expanded="false" />
-                <element signature="e#10377#10378#0" expanded="false" />
-                <element signature="e#10414#10415#0" expanded="false" />
-                <element signature="e#10442#10443#0" expanded="false" />
-                <element signature="e#10494#10495#0" expanded="false" />
-                <element signature="e#10605#10606#0" expanded="false" />
-                <element signature="e#10657#10658#0" expanded="false" />
-                <element signature="e#10698#10699#0" expanded="false" />
-                <element signature="e#10735#10736#0" expanded="false" />
-                <element signature="e#10871#10872#0" expanded="false" />
-                <element signature="e#10923#10924#0" expanded="false" />
-                <element signature="e#10967#10968#0" expanded="false" />
-                <element signature="e#11004#11005#0" expanded="false" />
-                <element signature="e#11143#11144#0" expanded="false" />
-                <element signature="e#11195#11196#0" expanded="false" />
-                <element signature="e#11238#11239#0" expanded="false" />
-                <element signature="e#11275#11276#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StartReplayCommand.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/io/StartReplayCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#151#152#0" expanded="false" />
-                <element signature="e#181#182#0" expanded="false" />
-                <element signature="e#211#212#0" expanded="false" />
-                <element signature="e#237#238#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StopReplayCommand.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/io/StopReplayCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -176,8 +109,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RaceRecorderActor.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RaceRecorderActor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.09327846">
+              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/public/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="banner.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/banner.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -228,13 +181,14 @@
         <option value="$M2_REPO$/com/zuehlke/fastandfurious/fnf.clientapi/1.1.7/fnf.clientapi-1.1.7-sources.jar!/com/zuehlke/carrera/connection/SimulatorTowardsPilotApiImpl.java" />
         <option value="$M2_REPO$/com/zuehlke/fastandfurious/fnf.clientapi/1.1.7/fnf.clientapi-1.1.7-sources.jar!/com/zuehlke/carrera/connection/TowardsPilotApi.java" />
         <option value="$M2_REPO$/com/zuehlke/fastandfurious/fnf.clientapi/1.1.7/fnf.clientapi-1.1.7-sources.jar!/com/zuehlke/carrera/connection/TowardsPilotsConnection.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/services/SimulatorService.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
         <option value="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/PilotApplication.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/zuehlke/carrera/javapilot/io/RaceRecorderTest.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/public/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
       </list>
     </option>
   </component>
@@ -1049,12 +1003,12 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3300885" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3300885" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48141593" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1084,7 +1038,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="correct conncetion wiring" />
-    <option name="LAST_COMMIT_MESSAGE" value="correct conncetion wiring" />
+    <MESSAGE value="merge and some fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge and some fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1105,20 +1060,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$M2_REPO$/com/rabbitmq/amqp-client/3.5.4/amqp-client-3.5.4-sources.jar!/com/rabbitmq/client/Channel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$M2_REPO$/com/rabbitmq/amqp-client/3.5.4/amqp-client-3.5.4-sources.jar!/com/rabbitmq/client/Connection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="17" selection-start-line="52" selection-start-column="17" selection-end-line="52" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$M2_REPO$/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7-sources.jar!/org/slf4j/Logger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1448,14 +1389,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/PilotApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1566,24 +1499,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="178" column="58" selection-start-line="178" selection-start-column="58" selection-end-line="178" selection-end-column="58" />
-          <folding>
-            <element signature="e#6315#6316#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/zuehlke/carrera/javapilot/akka/KobayashiActorTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1603,22 +1518,65 @@
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.65384614">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
-            <marker date="1456346813000" expanded="true" signature="59:93422" placeholder="..." />
-            <marker date="1456346813000" expanded="true" signature="98:192" placeholder="..." />
-            <marker date="1456346813000" expanded="true" signature="98:267" placeholder="..." />
-            <marker date="1456346813000" expanded="true" signature="192:267" placeholder="..." />
-            <marker date="1456346813000" expanded="true" signature="90662:90750" placeholder="..." />
-            <marker date="1456346813000" expanded="true" signature="90687:90704" placeholder="..." />
+            <marker date="1456347514000" expanded="true" signature="59:94307" placeholder="..." />
+            <marker date="1456347514000" expanded="true" signature="98:191" placeholder="..." />
+            <marker date="1456347514000" expanded="true" signature="91572:91589" placeholder="..." />
+            <marker date="1456347514000" expanded="true" signature="91572:91620" placeholder="..." />
+            <marker date="1456347514000" expanded="true" signature="91572:91635" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34979424">
+        <state vertical-scroll-proportion="0.0">
           <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="69" column="75" selection-start-line="69" selection-start-column="75" selection-end-line="69" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5813#5814#0" expanded="true" />
+            <element signature="e#5862#5863#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/public/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/banner.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.09327846">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
           <folding />
         </state>
       </provider>
