@@ -13,25 +13,25 @@ import java.util.function.Supplier;
 public class RaceRecorderActor extends UntypedActor {
 
     public static final String DATA_DIRECTORY = "data";
-    public static final int FREQUENCY = 1;
+    public static final int FREQUENCY = 1; // ms between two reads
 
     private final RaceRecorderPlayer recorder = new RaceRecorderPlayer(DATA_DIRECTORY);
-    private final ActorRef kobayashi;
+    private final ActorRef pilot;
     private boolean replaying = false;
     private Supplier<Object> supplier;
     private Cancellable schedule;
 
-    public RaceRecorderActor(ActorRef kobayashi) {
-        this.kobayashi = kobayashi;
+    public RaceRecorderActor(ActorRef pilot) {
+        this.pilot = pilot;
     }
 
-    public static Props props ( ActorRef kobayashi ) {
+    public static Props props ( ActorRef pilot) {
         return Props.create(new Creator<RaceRecorderActor>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public RaceRecorderActor create() throws Exception {
-                return new RaceRecorderActor(kobayashi);
+                return new RaceRecorderActor(pilot);
             }
         });
     }
@@ -80,9 +80,9 @@ public class RaceRecorderActor extends UntypedActor {
             if ( nextMessage instanceof PowerControl) {
                 return;
             }
-            kobayashi.tell(nextMessage, getSelf());
+            pilot.tell(nextMessage, getSelf());
         } catch (EndOfStreamException eose ) {
-            kobayashi.tell(new StopReplayCommand(), getSelf());
+            pilot.tell(new StopReplayCommand(), getSelf());
             stopReplaying();
         }
     }
