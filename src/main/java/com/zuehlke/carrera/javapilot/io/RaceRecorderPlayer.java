@@ -246,7 +246,7 @@ public class RaceRecorderPlayer {
         }
         allObjectsWithTimestamps.sort((l,r)->(int)(l.timestamp()-r.timestamp()));
         if ( allObjectsWithTimestamps.size() == 0 ) {
-            throw new EndOfStreamException ();
+            throw new EndOfStreamException();
         }
         return allObjectsWithTimestamps.get(0).object;
     }

@@ -41,9 +41,6 @@ import java.util.List;
 @EnableWebSocketMessageBroker
 public class PilotApplication implements CommandLineRunner{
 
-    @Value("${javapilot.trainingUrl}")
-    private String relayTrainingUrl;
-
     @Value("${javapilot.name}")
     private String team;
 
@@ -95,7 +92,7 @@ public class PilotApplication implements CommandLineRunner{
         CommandLineParser parser = new PosixParser();
         CommandLine cmd = parser.parse(options, arglist.toArray(new String[ arglist.size()]));
 
-        String design = "Dubai";
+        String design = "Budapest";
 
         if ( cmd.hasOption("i")) {
             team = cmd.getOptionValue("i");
@@ -120,17 +117,6 @@ public class PilotApplication implements CommandLineRunner{
 
         connectWithProtocol ( protocol, function );
 
-        String url = relayTrainingUrl + "/" + design;
-        boolean recordData = cmd.hasOption("r");
-
-        if ( cmd.hasOption("t")) {
-            try {
-                String description = cmd.getOptionValue("t");
-                new RestTemplate().postForObject(url, new TrainingRequest(team, accessCode, design, description, recordData ), TrainingResponse.class);
-            } catch ( HttpClientErrorException hcee ) {
-                System.err.println("Couldn't connect to " + url);
-            }
-        }
     }
 
     private void connectWithProtocol(Protocol protocol, Function function ) {
@@ -184,5 +170,7 @@ public class PilotApplication implements CommandLineRunner{
         TowardsPilotsConnection towardsPilotsConnection = factory.create(system::setPower);
 
         system.register ( towardsPilotsConnection );
+
+        simulatorService.setPilotConnection ( towardsPilotsConnection );
     }
 }

@@ -6,7 +6,7 @@ If you want to use a different technology, this starterkit still provides you wi
 ## prerequisites
   - java jdk 8 installed
   - JAVA_HOME environment variable points to the Java installation directory
-  - maven 3 installed
+  - maven 2 installed
   - git installed
   - rabbitmq installed (for remote connections)
 

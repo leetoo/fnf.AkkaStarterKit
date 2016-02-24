@@ -1,6 +1,7 @@
 package com.zuehlke.carrera.javapilot.services;
 
 import akka.actor.ActorRef;
+import com.zuehlke.carrera.connection.TowardsPilotsConnection;
 import com.zuehlke.carrera.relayapi.messages.*;
 import com.zuehlke.carrera.simulator.config.SimulatorProperties;
 import com.zuehlke.carrera.simulator.model.PilotInterface;
@@ -39,6 +40,7 @@ public class SimulatorService {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     private final RacetrackToPilotConnector pilotInterface;
+    private TowardsPilotsConnection pilotConnection;
 
     @Autowired
     public SimulatorService ( SimulatorProperties settings,
@@ -100,11 +102,16 @@ public class SimulatorService {
     }
 
     public void fireRaceStartEvent ( RaceStartMessage message) {
+        message.setTrackId("Starterkit's Simulator");
         LOG.info("received race start message");
         if (raceTrackSimulatorSystem != null) {
             raceTrackSimulatorSystem.startRace(message);
         }
-        pilotInterface.send(message);
+        if ( pilotConnection == null ) {
+            pilotInterface.send(message); // single process mode
+        } else {
+            pilotConnection.sendRaceStart(message); // separate processes mode
+        }
     }
 
     public void fireRaceStopEvent ( RaceStopMessage message) {
@@ -112,7 +119,11 @@ public class SimulatorService {
         if (raceTrackSimulatorSystem != null) {
             raceTrackSimulatorSystem.stopRace(message);
         }
-        pilotInterface.send(message);
+        if ( pilotConnection == null ) {
+            pilotInterface.send(message); // single process mode
+        } else {
+            pilotConnection.sendRaceStop(message); // separate processes mode
+        }
     }
 
     public void powerup( int delta ) {
@@ -141,4 +152,11 @@ public class SimulatorService {
         return trackInfo;
     }
 
+    public void setPilotConnection(TowardsPilotsConnection pilotConnection) {
+        this.pilotConnection = pilotConnection;
+    }
+
+    public TowardsPilotsConnection getPilotConnection() {
+        return pilotConnection;
+    }
 }
