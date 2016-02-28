@@ -3,10 +3,7 @@ package com.zuehlke.carrera.javapilot.akka;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import akka.actor.dsl.Creators;
 import akka.japi.Creator;
-import com.zuehlke.carrera.javapilot.akka.experimental.PowerUpUntilPenalty;
-import com.zuehlke.carrera.javapilot.akka.experimental.ThresholdConfiguration;
 import com.zuehlke.carrera.javapilot.config.PilotProperties;
 import com.zuehlke.carrera.javapilot.io.StartReplayCommand;
 import com.zuehlke.carrera.javapilot.io.StopReplayCommand;
@@ -98,9 +95,6 @@ public class JavaPilotActor extends UntypedActor {
             } else if (message instanceof PenaltyMessage ) {
                 record(message);
                 handlePenaltyMessage ((PenaltyMessage) message );
-
-            } else if ( message instanceof ThresholdConfiguration) {
-                strategy.forward(message, getContext());
 
             } else if ( message instanceof RoundTimeMessage ) {
                 handleRoundTime((RoundTimeMessage) message);

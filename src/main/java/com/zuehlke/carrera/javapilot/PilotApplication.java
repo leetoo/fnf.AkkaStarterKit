@@ -38,14 +38,7 @@ import java.util.List;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableConfigurationProperties({SimulatorProperties.class})  // loaded from classpath:/application.yml
-@EnableWebSocketMessageBroker
 public class PilotApplication implements CommandLineRunner{
-
-    @Value("${javapilot.name}")
-    private String team;
-
-    @Value("${javapilot.accessCode}")
-    private String accessCode;
 
     @Autowired
     private SimulatorService simulatorService;
@@ -76,11 +69,7 @@ public class PilotApplication implements CommandLineRunner{
     public void run(String... args) throws Exception {
 
         Options options = new Options();
-        options.addOption("i", true, "Team ID");
-        options.addOption("a", true, "Access code");
         options.addOption("p", true, "Protocol: any of 'memory' (default), 'rabbit', or 'ws'");
-        //options.addOption("t", false, "Start Training on a simulator");
-        options.addOption("d", true, "The requested race design");
         options.addOption("f", true, "either of 'simulator', 'pilot'. Defaults to 'both'. Requires rabbit");
 
         List<String> arglist = new ArrayList<>();
@@ -91,20 +80,6 @@ public class PilotApplication implements CommandLineRunner{
         }
         CommandLineParser parser = new PosixParser();
         CommandLine cmd = parser.parse(options, arglist.toArray(new String[ arglist.size()]));
-
-        String design = "Budapest";
-
-        if ( cmd.hasOption("i")) {
-            team = cmd.getOptionValue("i");
-        }
-        if ( cmd.hasOption("a")) {
-            accessCode = cmd.getOptionValue("a");
-        }
-        if ( cmd.hasOption("d")) {
-            design = cmd.getOptionValue("d");
-        }
-
-
 
         Protocol protocol = Protocol.memory;
         if ( cmd.hasOption("p")) {
