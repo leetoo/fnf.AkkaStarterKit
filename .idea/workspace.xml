@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c614dfa-08c7-4575-9320-19e793b8d7a0" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/com/zuehlke/carrera/javapilot/akka/KobayashiActorTest.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java" afterPath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java" afterPath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/rest/RestApiController.java" afterPath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/rest/RestApiController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/services/PilotService.java" afterPath="$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/services/PilotService.java" />
     </list>
     <ignored path="fnf.starterkit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="JavaPilotActor.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="JavaPilotActor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.24269663">
+              <caret line="98" column="19" selection-start-line="98" selection-start-column="19" selection-end-line="98" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -46,10 +42,10 @@
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding>
-                <marker date="1456648627000" expanded="true" signature="82145:82180" placeholder="..." />
-                <marker date="1456648627000" expanded="true" signature="82145:82193" placeholder="..." />
+                <marker date="1456649185000" expanded="true" signature="81965:82000" placeholder="..." />
+                <marker date="1456649185000" expanded="true" signature="81965:82013" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -75,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RaceRecorderActor.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RaceRecorderActor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6224719">
-              <caret line="66" column="23" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="66" column="31" selection-start-line="66" selection-start-column="31" selection-end-line="66" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#783#784#0" expanded="true" />
@@ -914,7 +910,7 @@
     <configuration default="false" name="Pilot Only" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.zuehlke.carrera.javapilot.PilotApplication" />
-      <option name="PROGRAM_PARAMETERS" value="-f pilot -p rabbit --server.port=8082" />
+      <option name="PROGRAM_PARAMETERS" value="-f pilot -p rabbit --server.port=8081" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <module name="fnf.starterkit" />
       <envs />
@@ -938,12 +934,12 @@
       <method />
     </configuration>
     <list size="6">
-      <item index="0" class="java.lang.String" itemvalue="Spring Boot.Pilot Only" />
-      <item index="1" class="java.lang.String" itemvalue="Spring Boot.Simulator Only" />
-      <item index="2" class="java.lang.String" itemvalue="Spring Boot.AllInOne" />
-      <item index="3" class="java.lang.String" itemvalue="Application.ConfirmDontLoseMessages" />
-      <item index="4" class="java.lang.String" itemvalue="Application.DemoLowLevelAPI" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.RaceRecorderTest" />
+      <item index="0" class="java.lang.String" itemvalue="Application.ConfirmDontLoseMessages" />
+      <item index="1" class="java.lang.String" itemvalue="Application.DemoLowLevelAPI" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.RaceRecorderTest" />
+      <item index="3" class="java.lang.String" itemvalue="Spring Boot.Pilot Only" />
+      <item index="4" class="java.lang.String" itemvalue="Spring Boot.Simulator Only" />
+      <item index="5" class="java.lang.String" itemvalue="Spring Boot.AllInOne" />
     </list>
     <recent_temporary>
       <list size="3">
@@ -967,8 +963,15 @@
       <updated>1449264749463</updated>
       <workItem from="1449264750623" duration="139000" />
       <workItem from="1449420804147" duration="734000" />
-      <workItem from="1456644437654" duration="4026000" />
+      <workItem from="1456644437654" duration="4681000" />
     </task>
+    <task id="LOCAL-00001" summary="record/replay now operational">
+      <created>1456648663678</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1456648663678</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -977,7 +980,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4899000" />
+    <option name="totallyTimeSpent" value="5554000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2560" height="1440" extended-state="0" />
@@ -1025,7 +1028,8 @@
     <MESSAGE value="correct conncetion wiring" />
     <MESSAGE value="merge and some fixes" />
     <MESSAGE value="removed Topology" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed Topology" />
+    <MESSAGE value="record/replay now operational" />
+    <option name="LAST_COMMIT_MESSAGE" value="record/replay now operational" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1048,8 +1052,14 @@
           <properties />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java</url>
+          <line>78</line>
+          <properties />
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="12" />
+      <option name="time" value="13" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1404,10 +1414,10 @@
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding>
-            <marker date="1456648627000" expanded="true" signature="82145:82180" placeholder="..." />
-            <marker date="1456648627000" expanded="true" signature="82145:82193" placeholder="..." />
+            <marker date="1456649185000" expanded="true" signature="81965:82000" placeholder="..." />
+            <marker date="1456649185000" expanded="true" signature="81965:82013" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1463,24 +1473,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/RaceRecorderActor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6224719">
-          <caret line="66" column="23" selection-start-line="66" selection-start-column="23" selection-end-line="66" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="66" column="31" selection-start-line="66" selection-start-column="31" selection-end-line="66" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#783#784#0" expanded="true" />
             <element signature="e#817#818#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/zuehlke/carrera/javapilot/akka/JavaPilotActor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24269663">
+          <caret line="98" column="19" selection-start-line="98" selection-start-column="19" selection-end-line="98" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

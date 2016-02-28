@@ -96,6 +96,7 @@ public class JavaPilotActor extends UntypedActor {
                 handlePowerAction(((PowerAction) message).getPowerValue());
 
             } else if (message instanceof PenaltyMessage ) {
+                record(message);
                 handlePenaltyMessage ((PenaltyMessage) message );
 
             } else if ( message instanceof ThresholdConfiguration) {
