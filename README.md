@@ -1,23 +1,26 @@
 # AkkaStarterKit
-This is the Starter Kit for all participants who want to develop their solution based on a Spring-boot Akka architecture.
+This is the Starter Kit for all participants who want to develop their solution based on a Java-Spring-boot-Akka architecture.
 
-If you want to use a different technology, this starterkit still provides you with a race track simulator that allows you to verify your network protocol implementation and a provides you with a training opportunity for your algorithm
+If you want to use a different technology, this starter kit still provides you with a race track simulator that allows you to
 
-## prerequisites
-  - java jdk 8 installed
+ - verify your network protocol implementation.
+ - train your algorithm.
+
+## Prerequisites
+The following software components need be installed for the starter kit to work.
+
+  - java jdk 8
   - JAVA_HOME environment variable points to the Java installation directory
-  - maven 2 installed
+  - maven 3 installed
   - git installed
-  - rabbitmq installed (for remote connections)
+  - rabbitmq installed (for remote connections) [rabbitmq - download page] (https://www.rabbitmq.com/download.html)
 
 To install the starter kit, do the following:
 
-```shell
-  $ git clone https://github.com/FastAndFurious/AkkaStarterKit
-  $ cd AkkaStarterKit
-  $ mvn clean install
-  $ java -jar target/fnf.starterkit-1.0-SNAPSHOT.jar  <options>
-```
+    $ git clone https://github.com/FastAndFurious/AkkaStarterKit
+    $ cd AkkaStarterKit
+    $ mvn clean install
+    $ java -jar target/fnf.starterkit-1.0-SNAPSHOT.jar  <options>
 
 When building against the snapshots of clientapi and simulib, make sure you build those prior to the above so you have them in your local maven cache. To do just that, do the following
 
