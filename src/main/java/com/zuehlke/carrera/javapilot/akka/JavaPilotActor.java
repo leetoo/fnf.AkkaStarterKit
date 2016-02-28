@@ -3,10 +3,13 @@ package com.zuehlke.carrera.javapilot.akka;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import akka.actor.dsl.Creators;
 import akka.japi.Creator;
 import com.zuehlke.carrera.javapilot.akka.experimental.PowerUpUntilPenalty;
 import com.zuehlke.carrera.javapilot.akka.experimental.ThresholdConfiguration;
 import com.zuehlke.carrera.javapilot.config.PilotProperties;
+import com.zuehlke.carrera.javapilot.io.StartReplayCommand;
+import com.zuehlke.carrera.javapilot.io.StopReplayCommand;
 import com.zuehlke.carrera.javapilot.services.EndpointAnnouncement;
 import com.zuehlke.carrera.javapilot.services.PilotToRelayConnection;
 import com.zuehlke.carrera.relayapi.messages.*;
@@ -23,18 +26,20 @@ public class JavaPilotActor extends UntypedActor {
     private final PilotProperties properties;
 
     private ActorRef strategy;
+    private ActorRef recorder;
+    private boolean replaying;
 
     private PilotToRelayConnection relayConnection;
 
-    public JavaPilotActor(PilotProperties properties) {
+    public JavaPilotActor(PilotProperties properties ) {
 
         this.properties = properties;
-
         strategy = getContext().actorOf(PowerUpUntilPenalty.props(getSelf(), 1500));
+        recorder = getContext().actorOf(RaceRecorderActor.props(getSelf()));
     }
 
 
-    public static Props props ( PilotProperties properties ) {
+    public static Props props ( PilotProperties properties) {
         return Props.create(new Creator<JavaPilotActor>() {
             private static final long serialVersionUID = 1L;
 
@@ -45,22 +50,40 @@ public class JavaPilotActor extends UntypedActor {
         });
     }
 
+    private void record ( Object message ) {
+        if ( recorder != null ) {
+            recorder.forward(message, getContext());
+        }
+    }
 
     @Override
     public void onReceive(Object message) throws Exception {
 
         try {
 
-            if (message instanceof RaceStartMessage) {
+            if (message instanceof StartReplayCommand ) {
+                if ( ! replaying ) {
+                    recorder = getContext().actorOf(RaceRecorderActor.props(getSelf()));
+                    recorder.forward(message, getContext());
+                    replaying = true;
+                }
+            } else if ( message instanceof StopReplayCommand ) {
+                replaying = false;
+
+            } else if (message instanceof RaceStartMessage) {
+                record(message);
                 handleRaceStart();
 
             } else if (message instanceof RaceStopMessage) {
+                record(message);
                 handleRaceStop();
 
             } else if (message instanceof SensorEvent) {
+                record(message);
                 handleSensorEvent((SensorEvent) message);
 
             } else if (message instanceof VelocityMessage) {
+                record(message);
                 handleVelocityMessage((VelocityMessage) message);
 
             } else if (message instanceof PilotToRelayConnection) {
@@ -112,9 +135,15 @@ public class JavaPilotActor extends UntypedActor {
      * @param powerValue the new power value to be requested on the track
      */
     private void handlePowerAction(int powerValue) {
+
         long now = System.currentTimeMillis();
+
+        record(new PowerControl(powerValue, "starterkit", "tikretrats", now));
+
+        if (!replaying) {
             relayConnection.send(new PowerControl(powerValue, properties.getName(),
                     properties.getAccessCode(), now));
+        }
     }
 
     private void handleEndpointAnnouncement(EndpointAnnouncement message) {

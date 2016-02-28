@@ -16,7 +16,7 @@ public class RaceRecorderActor extends UntypedActor {
     public static final int FREQUENCY = 1; // ms between two reads
 
     private final RaceRecorderPlayer recorder = new RaceRecorderPlayer(DATA_DIRECTORY);
-    private final ActorRef pilot;
+    private ActorRef pilot;
     private boolean replaying = false;
     private Supplier<Object> supplier;
     private Cancellable schedule;
@@ -25,13 +25,14 @@ public class RaceRecorderActor extends UntypedActor {
         this.pilot = pilot;
     }
 
-    public static Props props ( ActorRef pilot) {
+
+    public static Props props ( ActorRef pilot ) {
         return Props.create(new Creator<RaceRecorderActor>() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public RaceRecorderActor create() throws Exception {
-                return new RaceRecorderActor(pilot);
+                return new RaceRecorderActor( pilot );
             }
         });
     }

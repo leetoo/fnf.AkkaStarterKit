@@ -3,7 +3,9 @@ package com.zuehlke.carrera.javapilot.services;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.zuehlke.carrera.javapilot.akka.JavaPilotActor;
+import com.zuehlke.carrera.javapilot.akka.RaceRecorderActor;
 import com.zuehlke.carrera.javapilot.config.PilotProperties;
+import com.zuehlke.carrera.javapilot.io.StartReplayCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,24 +45,6 @@ public class PilotService {
         pilotActor.tell(new PilotToRaceTrackConnector(simulatorService.getSystem()), ActorRef.noSender());
     }
 
-
-
-    //@PostConstruct
-    public void connectToRelay () {
-        PilotToRelayConnection pilotToRelayConnection = new PilotToRelayStompConnection(
-                settings.getRelayUrl(),
-                settings.getName(),
-                "admin",
-                "admin",
-                (startMessage) -> pilotActor.tell(startMessage, pilotActor),
-                (stopMessage) -> pilotActor.tell(stopMessage, pilotActor),
-                (sensorEvent) -> pilotActor.tell(sensorEvent, pilotActor),
-                (velocityMessage) -> pilotActor.tell(velocityMessage, pilotActor),
-                (penaltyMessage) -> pilotActor.tell(penaltyMessage, pilotActor));
-
-        pilotActor.tell(pilotToRelayConnection, ActorRef.noSender());
-    }
-
     @Scheduled(fixedRate = 2000)
     public void ensureConnection() {
         pilotActor.tell("ENSURE_CONNECTION", ActorRef.noSender());
@@ -78,13 +62,11 @@ public class PilotService {
 
     }
 
-    public void registerConnection(PilotToRelayConnection pilot) {
-        if ( pilot != null ) {
-            pilotActor.tell(pilot, ActorRef.noSender());
-        }
-    }
-
     public ActorRef getPilotActor() {
         return pilotActor;
+    }
+
+    public void replay(String tag) {
+        pilotActor.tell ( new StartReplayCommand(tag), ActorRef.noSender());
     }
 }
