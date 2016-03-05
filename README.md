@@ -80,5 +80,5 @@ a port name of your choice, if the default 8089 is used.
   Now you have a standalone simulator that you could also use with any other technology, as long as the pilot knows    how to talk to a rabbit queue
   
 
-[simulator]: https://github.com/FastAndFurious/AkkaStarterKit/images/simulator.png
+[simulator]: https://github.com/FastAndFurious/AkkaStarterKit/blob/master/images/simulator.png
 
