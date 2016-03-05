@@ -24,7 +24,7 @@ from the Rabbitmq connection or the RESTful interface to the other actors that a
 as they learn and provide the intelligent decisions
 
 ### Your Starting Point: ```PowerUpUntilPenalty``` 
-
+This Actor is the very starting point of all intelligent behaviour. From here you can accumulate knowledge, try and optimize strategies, spawn other actors that will do the hard analysis work in parallel, while this actor turns all its attention on the street.
 
 ## Prerequisites
 The following software components need be installed for the starter kit to work.
@@ -34,6 +34,8 @@ The following software components need be installed for the starter kit to work.
   - maven 3 installed
   - git installed
   - rabbitmq installed (for remote connections) [rabbitmq - download page] (https://www.rabbitmq.com/download.html)
+
+## Installation
 
 To install the starter kit, do the following:
 
