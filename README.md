@@ -44,21 +44,20 @@ To install the starter kit, do the following:
     $ mvn clean install
     $ java -jar target/fnf.starterkit-1.0-SNAPSHOT.jar  <options>
 
-Alternatively you can start the starter kit application with the provided scripts ```run-pilot-only.sh``` and 
-```run-simulator-only``` 
+Alternatively you can start the starter kit application with the provided scripts ```run-pilot-only.sh``` and ```run-simulator-only```.
 
 When building against the snapshots of clientapi and simulib, make sure you build those prior to the above so you have them in your local maven cache. To do just that, do the following
 
-```shell
-  $ git clone https://github.com/FastAndFurious/fnf.clientapi
-  $ cd fnf.clientapi
-  $ mvn clean install
-  $ git clone https://github.com/FastAndFurious/fnf.simulib
-  $ cd fnf.simulib
-  $ mvn clean install
-```
+    $ git clone https://github.com/FastAndFurious/fnf.clientapi
+    $ cd fnf.clientapi
+    $ mvn clean install
+    $ git clone https://github.com/FastAndFurious/fnf.simulib
+    $ cd fnf.simulib
+    $ mvn clean install
 
- This starts a web application on your computer. Point your browser to http://localhost:8089 to access the simulator.
+This starts a web application on your computer. Point your browser to http://localhost:8081 to access the simulator.
+
+![Starter Kit's Simulator][simulator]
 
   **command line options for the executable jar file:** 
 - **no options**
@@ -81,5 +80,5 @@ a port name of your choice, if the default 8089 is used.
   Now you have a standalone simulator that you could also use with any other technology, as long as the pilot knows    how to talk to a rabbit queue
   
 
-
+[simulator]: https://github.com/FastAndFurious/AkkaStarterKit/images/simulator.png
 
