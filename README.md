@@ -66,7 +66,7 @@ This starts a web application on your computer. Point your browser to http://loc
   The default strategy for the given pilot is to increase power until she receives the first speed penalty, then       decrease power with every subsequent penalty, until no penalties are caused anymore. Of course, this is not exactly   a winning strategy, but it should provide you an easy starting point for your own development.
 
 - ```--server.port=<port> ```  
-a port name of your choice, if the default 8089 is used.
+a port name of your choice. Useful, if the default value of 8081 is used elsewhere.
 
 - ```-p rabbit```
 
