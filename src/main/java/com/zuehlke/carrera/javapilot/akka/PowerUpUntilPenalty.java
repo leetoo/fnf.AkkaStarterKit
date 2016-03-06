@@ -18,7 +18,7 @@ public class PowerUpUntilPenalty extends UntypedActor {
 
     private final ActorRef kobayashi;
 
-    private int currentPower = 0;
+    private double currentPower = 0;
 
     private long lastIncrease = 0;
 
@@ -74,7 +74,7 @@ public class PowerUpUntilPenalty extends UntypedActor {
     private void handlePenaltyMessage(PenaltyMessage message) {
 
         currentPower -= 10;
-        kobayashi.tell(new PowerAction(currentPower), getSelf());
+        kobayashi.tell(new PowerAction((int)currentPower), getSelf());
         probing = false;
     }
 
@@ -90,19 +90,19 @@ public class PowerUpUntilPenalty extends UntypedActor {
 
         if (probing) {
             if (iAmStillStanding()) {
-                increase(5);
+                increase(0.5);
             } else if (message.getTimeStamp() > lastIncrease + duration) {
                 lastIncrease = message.getTimeStamp();
                 increase(3);
             }
         }
 
-        kobayashi.tell(new PowerAction(currentPower), getSelf());
+        kobayashi.tell(new PowerAction((int)currentPower), getSelf());
     }
 
-    private int increase ( int val ) {
+    private int increase ( double val ) {
         currentPower = Math.min ( currentPower + val, maxPower );
-        return currentPower;
+        return (int)currentPower;
     }
 
     private boolean iAmStillStanding() {

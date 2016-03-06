@@ -26,6 +26,20 @@ as they learn and provide the intelligent decisions
 ### Your Starting Point: ```PowerUpUntilPenalty``` 
 This Actor is the very starting point of all intelligent behaviour. From here you can accumulate knowledge, try and optimize strategies, spawn other actors that will do the hard analysis work in parallel, while this actor turns all its attention on the street.
 
+### See what's going on
+If you want to understand what your pilot is actually doing you better make sure he tells you everything. I.e., the pilot
+should log almost everything. To make it easy for you to understand the actual context, we made the starterkit spit out the
+most significant Gyro-z sensor readings to the console. Below you see the pilot crushing in to a right-left-right combination
+at high speed. The little tick (value 3059) at the end of the first right curve stems from losing grip. Ain't that cool?
+
+![The starterkit's console output][consoleout]
+
+### Replaying previous races
+The starterkit comes with one truly useful feature: It will record all races. The recordings will be stored in a "data" subdirectory
+from where your starterkit is being run. In that data subdirectory you'll find subdirectories with 8-digit time stamps to be read as "ddHHmmss".
+You can replay the data in e.g. a directory named 11032349 by simply pointing your browser at the REST URL of your pilot: localhost:8081/api/replay/11032349.
+With this you can perform a training run and then improve your algorithm until it understands that data.
+
 ## Prerequisites
 The following software components need be installed for the starter kit to work.
 
@@ -89,6 +103,8 @@ incoming messages into a queue on the Rabbitmq server. And your pilot should be 
 be provided by the race managemnt team or you may find it in the [competition information][compinfo]
 
 
-[simulator]: https://github.com/FastAndFurious/AkkaStarterKit/blob/master/images/simulator.png
+[simulator]: ./images/simulator.png
+[consoleout]: ./images/console-out.png
+
 [xbee]: https://learn.sparkfun.com/tutorials/exploring-xbees-and-xctu
 [compinfo]: https://github.com/FastAndFurious/Documentation/blob/master/details/AdministrativeDetails.md
