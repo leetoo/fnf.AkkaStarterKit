@@ -79,6 +79,16 @@ a port name of your choice. Useful, if the default value of 8081 is used elsewhe
   Starts the executable as "simulator" only, or "pilot" only, resp. Be sure to use --server.port option to use a       different   port for one of the processes in case you start both a pilot and a simulator on the same machine.
   Now you have a standalone simulator that you could also use with any other technology, as long as the pilot knows    how to talk to a rabbit queue
   
+## Connecting to the physical racetrack
+The physical racetrack is represented by light barriers, motor units, and - of course - the car itself, the latter using Bluetooth whilest the Arduinos prefer the 
+famous [XBee protocol][xbee] (Series 1, to be precise). 
+All the radio signals are received by a central (truly central, it's in the middle of the track scene) laptop called "console". The reason is the limited reach of the bluetooth shield
+that's built into the racing cars. The console sends everything it gets to a relay server via Websocket. The relay server makes sure that only those participants talk
+to each other that are supposed to. That mean's it always knows which of the pilots is actually allowed to control the car. Eventually, the relay server posts the
+incoming messages into a queue on the Rabbitmq server. And your pilot should be subscribed to its dedicated queues. The IP address of that central RabbitMQ server will
+be provided by the race managemnt team or you may find it in the [competition information][compinfo]
+
 
 [simulator]: https://github.com/FastAndFurious/AkkaStarterKit/blob/master/images/simulator.png
-
+[xbee]: https://learn.sparkfun.com/tutorials/exploring-xbees-and-xctu
+[compinfo]: https://github.com/FastAndFurious/Documentation/blob/master/details/AdministrativeDetails.md

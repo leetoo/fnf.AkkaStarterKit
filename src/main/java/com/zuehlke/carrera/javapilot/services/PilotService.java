@@ -3,7 +3,6 @@ package com.zuehlke.carrera.javapilot.services;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.zuehlke.carrera.javapilot.akka.JavaPilotActor;
-import com.zuehlke.carrera.javapilot.akka.RaceRecorderActor;
 import com.zuehlke.carrera.javapilot.config.PilotProperties;
 import com.zuehlke.carrera.javapilot.io.StartReplayCommand;
 import org.slf4j.Logger;
@@ -35,7 +34,7 @@ public class PilotService {
                         SimulatorService simulatorService ){
         this.settings = settings;
         this.endPointUrl = endpointService.getHttpEndpoint();
-        system = ActorSystem.create(settings.getName());
+        system = ActorSystem.create(normalize(settings.getName()));
         pilotActor = system.actorOf(JavaPilotActor.props(settings));
 
         // Simulator learns about the pilot
@@ -45,9 +44,9 @@ public class PilotService {
         pilotActor.tell(new PilotToRaceTrackConnector(simulatorService.getSystem()), ActorRef.noSender());
     }
 
-    @Scheduled(fixedRate = 2000)
-    public void ensureConnection() {
-        pilotActor.tell("ENSURE_CONNECTION", ActorRef.noSender());
+    public static String normalize ( String name ) {
+
+        return name.replaceAll("[ +'#|&%$!\"*/()@]", "");
     }
 
     @Scheduled(fixedRate = 1000)

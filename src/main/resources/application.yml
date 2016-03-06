@@ -6,10 +6,17 @@ server:       # Note that the port MUST be 80 to work in SC cloud!
   port: 8081  # Note that the port SHOULD NOT be 80 to work locally.
 
 javapilot:
-    name:           starterkit  # Id of this simulator. Should be unique.
-    accessCode:     tikretrats # the access code provided by the race management at registration
 
-    rabbitUrl:      localhost
+    #name:           Testosterons  # Id of this simulator. Should be unique.
+    #accessCode:     krodudida # the access code provided by the race management at registration
+
+    name: Hairy Harries
+    accessCode: schlaumonbeki
+
+    #name: starterkit
+    #accessCode: tikretrats
+
+    rabbitUrl:      localhost #192.168.1.142
 
     #relayUrl:  ws://relay2.beta.swisscloud.io/ws/rest/messages # Address of relay in SC cloud !
 

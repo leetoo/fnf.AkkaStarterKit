@@ -129,6 +129,7 @@ public class PilotApplication implements CommandLineRunner{
                 (roundPassed)->pilot.tell(roundPassed, ActorRef.noSender())
         );
 
+        pilotConnection.ensureConnection();
         pilot.tell(pilotConnection, ActorRef.noSender());
     }
 
