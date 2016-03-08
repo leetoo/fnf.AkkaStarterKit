@@ -1,11 +1,13 @@
 package com.zuehlke.carrera.javapilot.io;
 
 import com.zuehlke.carrera.relayapi.messages.*;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -14,15 +16,13 @@ public class RaceRecorderTest {
 
 
     @SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored"})
-    @Before public void cleanDirectory () {
+    @Before
+    public void cleanDirectory () throws Exception {
         File testDataDirectory = new File("testdata");
         testDataDirectory.mkdir();
 
-        for ( File f : new File("testdata").listFiles()) {
-            for ( File t : f.listFiles() ) {
-                t.delete();
-            }
-            f.delete();
+        for ( File f : testDataDirectory.listFiles()) {
+            FileUtils.deleteDirectory(f);
         }
     }
 

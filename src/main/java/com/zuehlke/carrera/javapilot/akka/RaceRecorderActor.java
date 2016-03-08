@@ -95,10 +95,10 @@ public class RaceRecorderActor extends UntypedActor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        schedulePlay(tag, FREQUENCY);
+        schedulePlay(FREQUENCY);
     }
 
-    protected void schedulePlay( String tag, int millies ) {
+    protected void schedulePlay(int millies) {
         schedule =
         getContext().system().scheduler().schedule(
                 Duration.create(millies, TimeUnit.MILLISECONDS),

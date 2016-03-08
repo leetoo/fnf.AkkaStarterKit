@@ -7,7 +7,9 @@ public class TimedPenaltyMessage extends PenaltyMessage {
     private Long timestamp;
     private PenaltyMessage original;
 
-    public TimedPenaltyMessage () {};
+    public TimedPenaltyMessage() {
+        //Auto constructor
+    }
 
     public TimedPenaltyMessage (PenaltyMessage original, Long timestamp ) {
         this.original = original;
@@ -20,10 +22,6 @@ public class TimedPenaltyMessage extends PenaltyMessage {
 
     public PenaltyMessage getOriginal() {
         return original;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
     }
 
     public void setOriginal(PenaltyMessage original) {

@@ -23,8 +23,6 @@ public class PilotService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PilotService.class);
 
-    private final PilotProperties settings;
-
     private final ActorSystem system;
     private final ActorRef pilotActor;
     private final String endPointUrl;
@@ -32,7 +30,6 @@ public class PilotService {
     @Autowired
     public PilotService(PilotProperties settings, EndpointService endpointService,
                         SimulatorService simulatorService ){
-        this.settings = settings;
         this.endPointUrl = endpointService.getHttpEndpoint();
         system = ActorSystem.create(normalize(settings.getName()));
         pilotActor = system.actorOf(JavaPilotActor.props(settings));

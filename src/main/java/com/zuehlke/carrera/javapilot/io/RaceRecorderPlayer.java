@@ -27,7 +27,6 @@ public class RaceRecorderPlayer {
     private static final String PENALTIES="penalties";
     private static final String POWER="power";
 
-    private String tag;
     private boolean recording = false;
 
     private final File dataDirectory;
@@ -55,7 +54,7 @@ public class RaceRecorderPlayer {
 
     public String record(RaceStartMessage raceStartMessage) {
 
-        tag = createAllFiles();
+        String tag = createAllFiles();
         recording = true;
 
         tryWrite(raceStartMessage, writers.get(START));
@@ -87,15 +86,15 @@ public class RaceRecorderPlayer {
     private String createAllFiles() {
         String now = new DateTime().toString("ddHHmmss");
 
-        File raceDirectory = new File(dataDirectory.toString() + "/" + now);
+        File raceDirectory = new File(dataDirectory, now);
 
-        if ( ! raceDirectory.mkdir()) {
-            throw new RuntimeException("Race directory " + now + " already exists");
+        if (!raceDirectory.mkdir()) {
+            throw new RuntimeException("Race directory " + raceDirectory.getAbsolutePath() + " already exists");
         }
 
         for (String fileName : fileNames) {
             try {
-                FileWriter writer = new FileWriter(raceDirectory.toString() + "/" + fileName);
+                FileWriter writer = new FileWriter(new File(raceDirectory, fileName));
                 writers.put(fileName, writer);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -257,7 +256,7 @@ public class RaceRecorderPlayer {
         abstract Long timestamp();
 
         public ObjectWithTimestamp(Object object) {
-            this.object = (T)object;
+            this.object = (T) object;
         }
     }
 

@@ -95,12 +95,6 @@ public class SimulatorService {
                 design.getBoudaryHeight(), design.getInitialAnchor() );
     }
 
-    public void firePowerControl(PowerControl control){
-        if(raceTrackSimulatorSystem != null) {
-            raceTrackSimulatorSystem.setPower(control);
-        }
-    }
-
     public void fireRaceStartEvent ( RaceStartMessage message) {
         message.setTrackId("Starterkit's Simulator");
         LOG.info("received race start message");
@@ -145,18 +139,13 @@ public class SimulatorService {
     public TrackInfo selectDesign(String trackDesign) {
 
         // will return the trackdesign and discard it, since we need the complete info.
-        TrackDesign newDesign = raceTrackSimulatorSystem.selectDesign(trackDesign);
+        raceTrackSimulatorSystem.selectDesign(trackDesign);
 
-        TrackInfo trackInfo = getTrackInfo();
-
-        return trackInfo;
+        return getTrackInfo();
     }
 
     public void setPilotConnection(TowardsPilotsConnection pilotConnection) {
         this.pilotConnection = pilotConnection;
     }
 
-    public TowardsPilotsConnection getPilotConnection() {
-        return pilotConnection;
-    }
 }

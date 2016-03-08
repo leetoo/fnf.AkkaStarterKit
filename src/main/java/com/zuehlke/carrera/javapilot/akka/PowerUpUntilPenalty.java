@@ -3,7 +3,6 @@ package com.zuehlke.carrera.javapilot.akka;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import com.zuehlke.carrera.javapilot.akka.PowerAction;
 import com.zuehlke.carrera.relayapi.messages.PenaltyMessage;
 import com.zuehlke.carrera.relayapi.messages.RaceStartMessage;
 import com.zuehlke.carrera.relayapi.messages.SensorEvent;
@@ -53,7 +52,7 @@ public class PowerUpUntilPenalty extends UntypedActor {
             handleSensorEvent((SensorEvent) message);
 
         } else if ( message instanceof PenaltyMessage) {
-            handlePenaltyMessage ( (PenaltyMessage) message );
+            handlePenaltyMessage ();
 
         } else if ( message instanceof RaceStartMessage) {
             handleRaceStart();
@@ -71,8 +70,7 @@ public class PowerUpUntilPenalty extends UntypedActor {
         gyrozHistory = new FloatingHistory(8);
     }
 
-    private void handlePenaltyMessage(PenaltyMessage message) {
-
+    private void handlePenaltyMessage() {
         currentPower -= 10;
         kobayashi.tell(new PowerAction((int)currentPower), getSelf());
         probing = false;
