@@ -60,7 +60,8 @@ public class SimulatorService {
                 new NormalDistribution(settings.getTickPeriod(), settings.getSigma()),
                 settings);
 
-        //raceTrackSimulatorSystem.startClock();
+        raceTrackSimulatorSystem.ensureConnection(settings.getRabbitUrl());
+
     }
 
     public void registerPilot(ActorRef pilot ) {
@@ -129,11 +130,6 @@ public class SimulatorService {
 
     public void reset() {
         raceTrackSimulatorSystem.reset();
-    }
-
-    @Scheduled(fixedRate = 2000)
-    public void ensureConnection() {
-        raceTrackSimulatorSystem.ensureConnection(settings.getRabbitUrl());
     }
 
     public TrackInfo selectDesign(String trackDesign) {
