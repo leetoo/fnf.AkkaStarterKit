@@ -7,10 +7,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -134,7 +131,7 @@ public class RaceRecorderPlayer {
 
         try {
             Map<Class<?>, BufferedReader> readers = constructReaderMap(tag);
-            return Stream.generate( mergingDataSupplier(readers));
+            return Stream.generate(mergingDataSupplier(readers));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -189,6 +186,16 @@ public class RaceRecorderPlayer {
 
             private Object findAndReplaceNext(Map<Class<?>, Object> nextObjects, Map<Class<?>, BufferedReader> readers) throws EndOfStreamException {
                 Object nextObject = findNextObject(nextObjects);
+                if (nextObject == null) {
+                    for (Reader r : readers.values()) {
+                        try {
+                            r.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    throw new EndOfStreamException();
+                }
                 try {
                     String encoded = readers.get(nextObject.getClass()).readLine();
                     if ( encoded == null ) {
@@ -245,7 +252,7 @@ public class RaceRecorderPlayer {
         }
         allObjectsWithTimestamps.sort((l,r)->(int)(l.timestamp()-r.timestamp()));
         if ( allObjectsWithTimestamps.size() == 0 ) {
-            throw new EndOfStreamException();
+            return null;
         }
         return allObjectsWithTimestamps.get(0).object;
     }
