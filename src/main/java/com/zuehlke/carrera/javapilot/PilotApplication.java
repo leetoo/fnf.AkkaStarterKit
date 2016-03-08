@@ -147,6 +147,8 @@ public class PilotApplication implements CommandLineRunner{
 
         system.register ( towardsPilotsConnection );
 
+        towardsPilotsConnection.connect(settings.getRabbitUrl());
+
         simulatorService.setPilotConnection ( towardsPilotsConnection );
     }
 }
