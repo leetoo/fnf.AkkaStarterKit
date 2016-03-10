@@ -93,6 +93,10 @@ a port name of your choice. Useful, if the default value of 8081 is used elsewhe
   Starts the executable as "simulator" only, or "pilot" only, resp. Be sure to use --server.port option to use a       different   port for one of the processes in case you start both a pilot and a simulator on the same machine.
   Now you have a standalone simulator that you could also use with any other technology, as long as the pilot knows    how to talk to a rabbit queue
   
+## Configuration parameters
+The starter kit uses the [spring boot configuration concept][springbootconfig]. You'll find the configuration parameters of your starterkit in a file called application.yml in src/main/resources. If that file is copied to where the application actually 
+runs - the "root" of the project, if you will - then the latter one's parameters will overwrite the ones from the classpath. 
+  
 ## Connecting to the physical racetrack
 The physical racetrack is represented by light barriers, motor units, and - of course - the car itself, the latter using Bluetooth whilest the Arduinos prefer the 
 famous [XBee protocol][xbee] (Series 1, to be precise). 
@@ -106,5 +110,6 @@ be provided by the race managemnt team or you may find it in the [competition in
 [simulator]: ./images/simulator.png
 [consoleout]: ./images/console-out.png
 
+[springbootconfig]: https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html
 [xbee]: https://learn.sparkfun.com/tutorials/exploring-xbees-and-xctu
 [compinfo]: https://github.com/FastAndFurious/Documentation/blob/master/details/AdministrativeDetails.md
