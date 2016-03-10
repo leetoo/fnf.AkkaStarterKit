@@ -17,6 +17,13 @@ The two main ```@Service```s in the starter kit are ```PilotService``` and ```Si
 ### The ```PilotService```
 The ```PilotService```'s responsibility is to start the Akka actor system and the central Actor ```JavaPilotActor```.
 See [Akka documentation] (http://doc.akka.io/docs/akka/2.4.2/intro/what-is-akka.html) for more information about Akka. 
+The ```PilotService``` is also responsible for notifying the competition system that it is alive once a second.
+
+    @Scheduled(fixedRate = 1000)
+    public void announce() {
+        pilotActor.tell(new EndpointAnnouncement(endPointUrl), ActorRef.noSender());
+    }
+  
 
 ### The ```JavaPilotActor```
 The ```JavaPilotActor``` is the central actor that communicates to the outside world and forwards any incoming message
