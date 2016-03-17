@@ -5,9 +5,9 @@ import java.util.List;
 public class Replay {
 
 	private final String tag;
-	private final List<String> comments;
+	private final List<Comment> comments;
 
-	public Replay(final String tag, final List<String> comments) {
+	public Replay(final String tag, final List<Comment> comments) {
 		this.tag = tag;
 		this.comments = comments;
 	}
@@ -16,7 +16,7 @@ public class Replay {
 		return tag;
 	}
 
-	public List<String> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 

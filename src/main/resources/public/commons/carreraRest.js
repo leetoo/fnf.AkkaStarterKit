@@ -2,9 +2,6 @@
 
 angular.module('carrera.commons.rest')
 
-
-
-
 .factory('Simulator', ['$resource',
     function($resource){
         return $resource('/api/simulator/:controller/:delta', {}, {
@@ -18,6 +15,14 @@ angular.module('carrera.commons.rest')
             powerdown: {method:'POST', params:{controller:'powerdown', delta:10}, isArray:false},
             selectDesign: {method: 'POST', params: {controller: 'selectDesign'}, isArray: false}
         });
+    }])
+.factory('Replay', ['$resource',
+    function($resource) {
+        return $resource('/api/replay/:tag');
+    }])
+.factory('ReplayComment', ['$resource',
+    function($resource) {
+        return $resource('/api/replay/:tag/comment');
     }])
 ;
 

@@ -1,8 +1,9 @@
 package com.zuehlke.carrera.javapilot.services;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.glassfish.grizzly.utils.Charsets;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,17 +31,21 @@ public class ReplayService {
 		return new Replay(path.getFileName().toString(), getComments(path.toFile()));
 	}
 
-	private List<String> getComments(final File replayDirectory) {
+	private List<Comment> getComments(final File replayDirectory) {
 		final File commentsFile = new File(replayDirectory, "comments");
 		if (!commentsFile.exists()) {
 			return Collections.emptyList();
 		}
 
-		try (final Stream<String> lines = Files.lines(commentsFile.toPath())) {
-			return lines.collect(Collectors.toList());
+		try (final Stream<String> lines = Files.lines(commentsFile.toPath(), Charsets.UTF8_CHARSET)) {
+			return lines.map(this::createComment).collect(Collectors.toList());
 		} catch (final IOException e) {
 			throw new RuntimeException("Error occured while reading comments " + e);
 		}
+	}
+
+	private Comment createComment(final String commentText) {
+		return new Comment(commentText);
 	}
 
 	public void saveComment(String tag, String comment) {
@@ -49,7 +55,8 @@ public class ReplayService {
 		}
 
 		final File commentFile = new File(replay, "comments");
-		try (final FileWriter writer = new FileWriter(commentFile, true)) {
+		try (final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(commentFile, true),
+				Charsets.UTF8_CHARSET)) {
 			writer.write(comment + "\n");
 		} catch (final IOException e) {
 			throw new RuntimeException("Error occured while saving comment " + e);

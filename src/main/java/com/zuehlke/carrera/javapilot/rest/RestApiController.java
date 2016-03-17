@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zuehlke.carrera.javapilot.services.Comment;
 import com.zuehlke.carrera.javapilot.services.PilotService;
 import com.zuehlke.carrera.javapilot.services.Replay;
 import com.zuehlke.carrera.javapilot.services.ReplayService;
@@ -36,8 +37,8 @@ public class RestApiController {
 	}
 
 	@RequestMapping(value = "/replay/{tag}/comment", method = RequestMethod.POST, produces = "application/json")
-	public void postReplayComment(@PathVariable String tag, @RequestBody String comment) {
-		replayService.saveComment(tag, comment);
+	public void postReplayComment(@PathVariable String tag, @RequestBody Comment comment) {
+		replayService.saveComment(tag, comment.getText());
 	}
 
 }
