@@ -7,7 +7,8 @@ var simulatorApp = angular.module('simulatorApp',
     'ui.bootstrap',
 
 	'carrera.commons',	
-    'simulator'
+    'simulator',
+    'replay'
     ]);
 
 simulatorApp.config(['$routeProvider',
@@ -16,6 +17,10 @@ simulatorApp.config(['$routeProvider',
             when('/simulator', {
                 templateUrl: 'simulator/simulator.html',
                 controller: 'simulatorCtrl'
+            }).
+            when('/replay', {
+               templateUrl: 'replay/replay.html',
+               controller: 'replayCtrl' 
             }).
             otherwise({
                 redirectTo: '/simulator'
