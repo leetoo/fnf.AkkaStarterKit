@@ -1,23 +1,29 @@
 package com.zuehlke.carrera.javapilot.services;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class Replay {
 
 	private final String tag;
-	private final List<Comment> comments;
+	private final LocalDateTime creationDate;
+	private final Metadata metadata;
 
-	public Replay(final String tag, final List<Comment> comments) {
+	public Replay(final String tag, final Metadata metadata) {
 		this.tag = tag;
-		this.comments = comments;
+		this.creationDate = LocalDateTime.now();
+		this.metadata = metadata;
 	}
 
 	public String getTag() {
 		return tag;
 	}
 
-	public List<Comment> getComments() {
-		return comments;
+	public LocalDateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public Metadata getMetadata() {
+		return metadata;
 	}
 
 }

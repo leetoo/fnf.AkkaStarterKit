@@ -1,18 +1,16 @@
 package com.zuehlke.carrera.javapilot.services;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.glassfish.grizzly.utils.Charsets;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ReplayService {
@@ -28,39 +26,59 @@ public class ReplayService {
 	}
 
 	private Replay mapReplay(Path path) {
-		return new Replay(path.getFileName().toString(), getComments(path.toFile()));
+		return new Replay(path.getFileName().toString(),
+				getMetadata(new File(path.toFile(), "metadata.json"), path.getFileName().toString()));
 	}
 
-	private List<Comment> getComments(final File replayDirectory) {
-		final File commentsFile = new File(replayDirectory, "comments");
-		if (!commentsFile.exists()) {
-			return Collections.emptyList();
+	public void saveComment(final String replayTag, final String comment) {
+		final File replay = getReplayDirectory(replayTag);
+		final File metadataFile = new File(replay, "metadata.json");
+		final Metadata metadata = getMetadata(metadataFile, replayTag);
+
+		metadata.getComments().add(new Comment(comment));
+		final Metadata updatedMetadata = new Metadata(metadata.getComments(), metadata.getTags());
+		writeMetadata(updatedMetadata, metadataFile, replayTag);
+	}
+
+	public void saveTags(final String replayTag, final List<Tag> tags) {
+		final File replay = getReplayDirectory(replayTag);
+		final File metadataFile = new File(replay, "metadata.json");
+		final Metadata metadata = getMetadata(metadataFile, replayTag);
+
+		final Metadata updatedMetadata = new Metadata(metadata.getComments(), tags);
+
+		writeMetadata(updatedMetadata, metadataFile, replayTag);
+	}
+
+	private void writeMetadata(final Metadata updatedMetadata, final File metadataFile, final String replayTag) {
+		try {
+			if (!metadataFile.exists()) {
+				Files.createFile(metadataFile.toPath());
+			}
+			new ObjectMapper().writeValue(metadataFile, updatedMetadata);
+		} catch (IOException e) {
+			throw new RuntimeException("Error occured while writing metadata for replay with tag: " + replayTag, e);
+		}
+	}
+
+	private Metadata getMetadata(final File metadataFile, final String replayTag) {
+		if (!metadataFile.exists()) {
+			return Metadata.empty();
 		}
 
-		try (final Stream<String> lines = Files.lines(commentsFile.toPath(), Charsets.UTF8_CHARSET)) {
-			return lines.map(this::createComment).collect(Collectors.toList());
-		} catch (final IOException e) {
-			throw new RuntimeException("Error occured while reading comments " + e);
+		try {
+			return new ObjectMapper().readValue(metadataFile, Metadata.class);
+		} catch (IOException e) {
+			throw new RuntimeException("Error occured while reading metadata for replay with tag: " + replayTag, e);
 		}
 	}
 
-	private Comment createComment(final String commentText) {
-		return new Comment(commentText);
-	}
-
-	public void saveComment(String tag, String comment) {
+	private File getReplayDirectory(final String tag) {
 		final File replay = new File("data/" + tag);
 		if (!replay.isDirectory()) {
 			throw new RuntimeException("The specified tag does not exist.");
 		}
-
-		final File commentFile = new File(replay, "comments");
-		try (final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(commentFile, true),
-				Charsets.UTF8_CHARSET)) {
-			writer.write(comment + "\n");
-		} catch (final IOException e) {
-			throw new RuntimeException("Error occured while saving comment " + e);
-		}
+		return replay;
 	}
 
 }

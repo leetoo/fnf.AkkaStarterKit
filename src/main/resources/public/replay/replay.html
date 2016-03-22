@@ -11,27 +11,48 @@
 
 <div class="container" style="margin-top: 10px">
     <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-1"><p><strong>Tag</strong></p></div>
-        <div class="col-md-10"><p><strong>Comments</strong></p></div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <p><strong>Tag</strong></p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Comments</strong></p>
+        </div>
     </div>
 
-    <div class="row" style="margin-bottom:5px" ng-repeat="replay in replays" ng-init="showCommentForm = false">
-        <div class="col-md-1">
+    <div class="row" style="margin-bottom:5px" ng-repeat="replay in replays" ng-init="showCommentForm = false; showTagForm = false">
+        <div class="col-md-2">
             <button class="btn btn-success btn-sm" ng-click="replayRace(replay)">Replay</button>
+            <button class="btn btn-danger btn-sm" ng-click="stopReplay(replay)">Stop</button>
         </div>
         <div class="col-md-1">
             <strong>{{ replay.tag }}</strong>
         </div>
-        <div class="col-md-10">
-            <p ng-repeat="comment in replay.comments">{{ comment.text }}</p>
-            
+        <div class="col-md-3">
+            <span ng-repeat="tag in replay.metadata.tags">
+                <span class="label label-primary">{{ tag.name }}</span> &nbsp;
+            </span>
+            <button type="button" class="btn btn-default btn-xs" ng-class="{ active: showTagForm }" ng-click="showTagForm = !showTagForm">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+            <ng-form name="newTagForm" class="inline-form" ng-if="showTagForm">
+                <div class="form-group">
+                    <input class="form-control input-sm" ng-keyup="$event.keyCode == 13 && addTag(replay)" ng-model="newTag.name" ng-blur="$parent.showTagForm = false" placeholder="New tag" />
+                </div>
+            </ng-form>
+        </div>
+        <div class="col-md-6">
+            <p class="simulator-pad simulator-preserve-newline bg-info" ng-repeat="comment in replay.metadata.comments">{{ comment.text }}</p>
+
             <button type="button" class="btn btn-primary btn-sm" ng-click="showCommentForm = !showCommentForm">Write comment</button>
-            
-            <ng-from name="newCommentForm" class="inline-form" ng-if="showCommentForm">
-                <input type="text" ng-model="newComment.text" placeholder="New comment" />
-                <button class="btn btn-default btn-sm" type="button" ng-click="saveComment(replay)">Save</button>
-            </ng-from>
+            <ng-form name="newCommentForm" ng-if="showCommentForm">
+                <div class="form-group">
+                    <textarea class="form-control" ng-model="newComment.text" placeholder="New comment"></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default btn-sm" type="button" ng-click="saveComment(replay)">Save</button>
+                </div>
+            </ng-form>
         </div>
     </div>
 </div>

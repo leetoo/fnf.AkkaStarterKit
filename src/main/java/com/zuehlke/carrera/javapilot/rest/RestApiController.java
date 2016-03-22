@@ -13,6 +13,7 @@ import com.zuehlke.carrera.javapilot.services.Comment;
 import com.zuehlke.carrera.javapilot.services.PilotService;
 import com.zuehlke.carrera.javapilot.services.Replay;
 import com.zuehlke.carrera.javapilot.services.ReplayService;
+import com.zuehlke.carrera.javapilot.services.Tag;
 
 @RestController
 @RequestMapping("/api/")
@@ -39,6 +40,11 @@ public class RestApiController {
 	@RequestMapping(value = "/replay/{tag}/comment", method = RequestMethod.POST, produces = "application/json")
 	public void postReplayComment(@PathVariable String tag, @RequestBody Comment comment) {
 		replayService.saveComment(tag, comment.getText());
+	}
+
+	@RequestMapping(value = "/replay/{replayTag}/tag", method = RequestMethod.PUT, produces = "application/json")
+	public void postTags(@PathVariable String replayTag, @RequestBody List<Tag> tags) {
+		replayService.saveTags(replayTag, tags);
 	}
 
 }
