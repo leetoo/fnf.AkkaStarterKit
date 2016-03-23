@@ -45,7 +45,7 @@ at high speed. The little tick (value 3059) at the end of the first right curve 
 The starterkit comes with one truly useful feature: It will record all races. The recordings will be stored in a "data" subdirectory
 from where your starterkit is being run. In that data subdirectory you'll find subdirectories with 8-digit time stamps to be read as "ddHHmmss".
 
-Races can be replayed on the dedicated "Replays" page. More information on the page can beo found [here][Replay.md].
+Races can be replayed on the dedicated "Replays" page. More information on the page can beo found [here](Replay.md).
 
 ## Prerequisites
 The following software components need be installed for the starter kit to work.
