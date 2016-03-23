@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,8 +29,10 @@ public class ReplayService {
 	}
 
 	private Replay mapReplay(Path path) {
-		return new Replay(path.getFileName().toString(),
-				getMetadata(new File(path.toFile(), "metadata.json"), path.getFileName().toString()));
+		final String replayTagName = path.getFileName().toString();
+
+		return new Replay(replayTagName, getCreationDateTime(path),
+				getMetadata(new File(path.toFile(), "metadata.json"), replayTagName));
 	}
 
 	public void saveComment(final String replayTag, final String comment) {
@@ -70,6 +75,15 @@ public class ReplayService {
 			return new ObjectMapper().readValue(metadataFile, Metadata.class);
 		} catch (IOException e) {
 			throw new RuntimeException("Error occured while reading metadata for replay with tag: " + replayTag, e);
+		}
+	}
+
+	private LocalDateTime getCreationDateTime(final Path path) {
+		try {
+			final BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
+			return LocalDateTime.ofInstant(attributes.creationTime().toInstant(), ZoneId.systemDefault());
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to fetch replays from data directory. Original error: " + e);
 		}
 	}
 

@@ -8,10 +8,6 @@ angular.module('replay')
             Replay.get({ tag:replay.tag });
         }
         
-        $scope.stopReplay = function(replay) {
-            // Do nothing as of now
-        }
-        
         $scope.saveComment = function(replay) {
             var comment = new ReplayComment({ text: $scope.newComment.text });
             comment.$save({ tag:replay.tag }, function () {
@@ -24,6 +20,19 @@ angular.module('replay')
             replay.metadata.tags.push({ name: $scope.newTag.name });
             ReplayTag.update({ tag: replay.tag }, replay.metadata.tags);
             $scope.newTag.name = "";            
+        }
+        
+        $scope.removeTag = function(replay, tag) {
+            var tagList = replay.metadata.tags;
+            function byTagName(element, index, array) {
+                element.name === tag.name;
+            }
+            var tagIndex = tagList.findIndex(byTagName);
+            if(tagIndex !== undefined) {
+                replay.metadata.tags.splice(tagIndex, 1);
+            }
+            
+            ReplayTag.update({ tag: replay.tag }, tagList);
         }
         
         var init = function() {

@@ -8,9 +8,9 @@ public class Replay {
 	private final LocalDateTime creationDate;
 	private final Metadata metadata;
 
-	public Replay(final String tag, final Metadata metadata) {
+	public Replay(final String tag, final LocalDateTime creationDate, final Metadata metadata) {
 		this.tag = tag;
-		this.creationDate = LocalDateTime.now();
+		this.creationDate = creationDate;
 		this.metadata = metadata;
 	}
 
