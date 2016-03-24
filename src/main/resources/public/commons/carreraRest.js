@@ -18,7 +18,9 @@ angular.module('carrera.commons.rest')
         }])
     .factory('Replay', ['$resource',
         function($resource) {
-            return $resource('/api/replay/:tag');
+            return $resource('/api/replay/:tag/:action', null, {
+                stop: { method: 'GET', params: { action: 'stop' }, isArray: false}
+            });
         }])
     .factory('ReplayComment', ['$resource',
         function($resource) {

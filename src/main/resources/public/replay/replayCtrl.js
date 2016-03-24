@@ -8,6 +8,11 @@ angular.module('replay')
             Replay.get({ tag:replay.tag });
         }
         
+        // At the moment it's not possible to stop a specific replay
+        $scope.stopRunningReplay = function() {
+            Replay.stop({ tag: 'all' });
+        }
+        
         $scope.saveComment = function(replay) {
             var comment = new ReplayComment({ text: $scope.newComment.text });
             comment.$save({ tag:replay.tag }, function () {
