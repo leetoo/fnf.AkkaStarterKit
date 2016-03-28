@@ -26,4 +26,14 @@ simulatorApp.config(['$routeProvider',
                 redirectTo: '/simulator'
             });
     }]);
+    
+simulatorApp.filter('newlines', function() {
+   return function(text) {
+       if(!text) {
+           return text;
+       }
+       
+       return text.replace(/\n\r?/g, '<br />');
+   };
+});
 

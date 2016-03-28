@@ -44,8 +44,8 @@ at high speed. The little tick (value 3059) at the end of the first right curve 
 ### Replaying previous races
 The starterkit comes with one truly useful feature: It will record all races. The recordings will be stored in a "data" subdirectory
 from where your starterkit is being run. In that data subdirectory you'll find subdirectories with 8-digit time stamps to be read as "ddHHmmss".
-You can replay the data in e.g. a directory named 11032349 by simply pointing your browser at the REST URL of your pilot: localhost:8081/api/replay/11032349.
-With this you can perform a training run and then improve your algorithm until it understands that data.
+
+Races can be replayed on the dedicated "Replays" page. More information on the page can beo found [here](Replay.md).
 
 ## Prerequisites
 The following software components need be installed for the starter kit to work.

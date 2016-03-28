@@ -17,3 +17,15 @@
     display: flex;
     align-items: center;
 }
+
+.simulator-preserve-newline {
+    white-space:pre-wrap;
+}
+
+.simulator-pad {
+    padding:5px;
+}
+
+.simulator-tag {
+    font-size:1em;
+}
