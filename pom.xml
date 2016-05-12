@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.zuehlke.fastandfurious</groupId>
             <artifactId>fnf.simulib</artifactId>
-            <version>0.9.5</version>
+            <version>0.9.6-SNAPSHOT</version>
         </dependency>
 
 
@@ -55,7 +55,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        
+
         <dependency>
     		<groupId>com.fasterxml.jackson.datatype</groupId>
     		<artifactId>jackson-datatype-jsr310</artifactId>

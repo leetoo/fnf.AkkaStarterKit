@@ -9,8 +9,8 @@ angular.module('simulator')
         $scope.doesExist = false;
         $scope.raceTrackId= "<raceTrackID>";
 
-        $scope.selectedDesign = "Dubai";
-        $scope.availableDesigns = [ $scope.selectedDesign, "Berlin", "Oerlikon", "Hollywood", "Budapest"];
+        $scope.selectedDesign = "Lima";
+        $scope.availableDesigns = [ $scope.selectedDesign, "Dubai", "Berlin", "Oerlikon", "Hollywood", "Budapest"];
 
         $scope.connected = false;
 
@@ -23,6 +23,7 @@ angular.module('simulator')
         $scope.baseAnchor = {};
         $scope.canvasWidth = 1200;
         $scope.canvasHeight = 800;
+        $scope.lastLapTime = 0;
         $scope.sizeOption = {
             description: "1200x800",
             width: 1200,
@@ -141,6 +142,7 @@ angular.module('simulator')
                     if ( msg.event.type === 'ROUND_PASSED') {
                         $scope.roundNumber = msg.roundNumber;
                     } else {
+                        $scope.lastLapTime = msg.mostRecentLapTime;
                         $scope.roundNumber = msg.roundNumber;
                         $scope.currentTeam = msg.teamId;
                         $scope.recentNews = msg;
