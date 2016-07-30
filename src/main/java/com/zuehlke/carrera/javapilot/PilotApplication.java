@@ -2,9 +2,10 @@ package com.zuehlke.carrera.javapilot;
 
 
 import akka.actor.ActorRef;
+import com.zuehlke.carrera.api.DirectExchangePilotApiImpl;
 import com.zuehlke.carrera.api.PilotApi;
-import com.zuehlke.carrera.api.PilotApiImpl;
 import com.zuehlke.carrera.api.channel.PilotToRelayChannelNames;
+import com.zuehlke.carrera.api.channel.RoutingKeyNames;
 import com.zuehlke.carrera.api.client.Client;
 import com.zuehlke.carrera.api.client.rabbit.RabbitClient;
 import com.zuehlke.carrera.api.seralize.JacksonSerializer;
@@ -14,22 +15,19 @@ import com.zuehlke.carrera.javapilot.config.PilotProperties;
 import com.zuehlke.carrera.javapilot.services.PilotService;
 import com.zuehlke.carrera.javapilot.services.PilotToRelayConnection;
 import com.zuehlke.carrera.javapilot.services.SimulatorService;
-import com.zuehlke.carrera.relayapi.messages.TrainingRequest;
-import com.zuehlke.carrera.relayapi.messages.TrainingResponse;
 import com.zuehlke.carrera.simulator.config.SimulatorProperties;
 import com.zuehlke.carrera.simulator.model.RaceTrackSimulatorSystem;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.PosixParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +51,7 @@ public class PilotApplication implements CommandLineRunner{
         simulator,
         pilot,
         both
-    };
+    }
 
     /**
      * Primary entry point of Carrera Simulator
@@ -115,7 +113,8 @@ public class PilotApplication implements CommandLineRunner{
         Client client = new RabbitClient();
         client.connect(settings.getRabbitUrl());
         Serializer serializer = new JacksonSerializer();
-        PilotApi pilotApi = new PilotApiImpl(client, new PilotToRelayChannelNames(settings.getName()), serializer);
+        PilotApi pilotApi = new DirectExchangePilotApiImpl(client, new PilotToRelayChannelNames(settings.getName()),
+                new RoutingKeyNames(settings.getName()), serializer);
 
         ConnectionFactoryFromPilots factory = new RabbitConnectionFactoryFromPilots(pilotApi,
                 settings.getName(), settings.getAccessCode(), settings.getRabbitUrl());

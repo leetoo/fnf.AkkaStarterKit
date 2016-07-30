@@ -10,8 +10,8 @@ javapilot:
     #name:           Testosterons  # Id of this simulator. Should be unique.
     #accessCode:     krodudida # the access code provided by the race management at registration
 
-    name: starterkit
-    accessCode: tikretrats
+    name: Wolfie's Wolverines
+    accessCode: züwermepa
 
     rabbitUrl:      localhost #192.168.1.142
 

@@ -6,6 +6,7 @@ import akka.actor.UntypedActor;
 import com.zuehlke.carrera.relayapi.messages.PenaltyMessage;
 import com.zuehlke.carrera.relayapi.messages.RaceStartMessage;
 import com.zuehlke.carrera.relayapi.messages.SensorEvent;
+import com.zuehlke.carrera.relayapi.messages.VelocityMessage;
 import com.zuehlke.carrera.timeseries.FloatingHistory;
 import org.apache.commons.lang.StringUtils;
 
@@ -51,8 +52,11 @@ public class PowerUpUntilPenalty extends UntypedActor {
         if ( message instanceof SensorEvent ) {
             handleSensorEvent((SensorEvent) message);
 
+        } else if ( message instanceof VelocityMessage ) {
+            handleVelocityMessage((VelocityMessage) message);
+
         } else if ( message instanceof PenaltyMessage) {
-            handlePenaltyMessage ();
+            handlePenaltyMessage ((PenaltyMessage) message);
 
         } else if ( message instanceof RaceStartMessage) {
             handleRaceStart();
@@ -60,6 +64,10 @@ public class PowerUpUntilPenalty extends UntypedActor {
         } else {
             unhandled(message);
         }
+    }
+
+    private void handleVelocityMessage(VelocityMessage message ) {
+        System.out.printf("Received velocity message: %.2f m/s\n", message.getVelocity());
     }
 
     private void handleRaceStart() {
@@ -70,8 +78,10 @@ public class PowerUpUntilPenalty extends UntypedActor {
         gyrozHistory = new FloatingHistory(8);
     }
 
-    private void handlePenaltyMessage() {
+    private void handlePenaltyMessage(PenaltyMessage message) {
+        System.out.printf("Received penalty message: %.2f m/s, allowed %.2f\n", message.getActualSpeed(), message.getSpeedLimit());
         currentPower -= 10;
+        System.out.printf("Reducing power to %.2f\n", currentPower);
         kobayashi.tell(new PowerAction((int)currentPower), getSelf());
         probing = false;
     }
@@ -88,10 +98,11 @@ public class PowerUpUntilPenalty extends UntypedActor {
 
         if (probing) {
             if (iAmStillStanding()) {
-                increase(0.5);
+                increase(2);
             } else if (message.getTimeStamp() > lastIncrease + duration) {
+                increase(2);
+                System.out.printf("After %d ms, increasing power to %.02f\n", lastIncrease, currentPower);
                 lastIncrease = message.getTimeStamp();
-                increase(3);
             }
         }
 
