@@ -16,13 +16,14 @@ import org.apache.commons.lang.StringUtils;
  */
 public class PowerUpUntilPenalty extends UntypedActor {
 
+    private static final int SAFE_POWER = 100;
+    private static final int MAX_POWER = 180; // Max for this phase;
+    private static final int DURATION_BETWEEN_INCREASES=5000;
+
     private final ActorRef kobayashi;
 
     private double currentPower = 0;
-
     private long lastIncrease = 0;
-
-    private int maxPower = 180; // Max for this phase;
 
     private boolean probing = true;
 
@@ -30,19 +31,16 @@ public class PowerUpUntilPenalty extends UntypedActor {
 
     /**
      * @param pilotActor The central pilot actor
-     * @param duration the period between two increases
      * @return the actor props
      */
-    public static Props props( ActorRef pilotActor, int duration ) {
+    public static Props props( ActorRef pilotActor) {
         return Props.create(
-                PowerUpUntilPenalty.class, () -> new PowerUpUntilPenalty(pilotActor, duration ));
+                PowerUpUntilPenalty.class, () -> new PowerUpUntilPenalty(pilotActor ));
     }
-    private final int duration;
 
-    public PowerUpUntilPenalty(ActorRef pilotActor, int duration) {
+    public PowerUpUntilPenalty(ActorRef pilotActor) {
         lastIncrease = System.currentTimeMillis();
         this.kobayashi = pilotActor;
-        this.duration = duration;
     }
 
 
@@ -71,16 +69,15 @@ public class PowerUpUntilPenalty extends UntypedActor {
     }
 
     private void handleRaceStart() {
-        currentPower = 0;
+        currentPower = SAFE_POWER;
         lastIncrease = 0;
-        maxPower = 180; // Max for this phase;
         probing = true;
         gyrozHistory = new FloatingHistory(8);
     }
 
     private void handlePenaltyMessage(PenaltyMessage message) {
         System.out.printf("Received penalty message: %.2f m/s, allowed %.2f\n", message.getActualSpeed(), message.getSpeedLimit());
-        currentPower -= 10;
+        currentPower = Math.max( 0, currentPower - 10 );
         System.out.printf("Reducing power to %.2f\n", currentPower);
         kobayashi.tell(new PowerAction((int)currentPower), getSelf());
         probing = false;
@@ -93,13 +90,10 @@ public class PowerUpUntilPenalty extends UntypedActor {
      */
     private void handleSensorEvent(SensorEvent message) {
 
-        double gyrz = gyrozHistory.shift(message.getG()[2]);
-         show ((int)gyrz);
+        show (message.getG()[2]);
 
         if (probing) {
-            if (iAmStillStanding()) {
-                increase(2);
-            } else if (message.getTimeStamp() > lastIncrease + duration) {
+            if (message.getTimeStamp() > lastIncrease + DURATION_BETWEEN_INCREASES) {
                 increase(2);
                 System.out.printf("After %d ms, increasing power to %.02f\n", lastIncrease, currentPower);
                 lastIncrease = message.getTimeStamp();
@@ -110,12 +104,8 @@ public class PowerUpUntilPenalty extends UntypedActor {
     }
 
     private int increase ( double val ) {
-        currentPower = Math.min ( currentPower + val, maxPower );
+        currentPower = Math.min ( currentPower + val, MAX_POWER);
         return (int)currentPower;
-    }
-
-    private boolean iAmStillStanding() {
-        return gyrozHistory.currentStDev() < 3;
     }
 
     private void show(int gyr2) {
@@ -123,5 +113,9 @@ public class PowerUpUntilPenalty extends UntypedActor {
         System.out.println(StringUtils.repeat(" ", scale) + gyr2);
     }
 
+    @Override
+    public void postStop () {
+        System.out.println("Strategy actor stopped.");
+    }
 
 }

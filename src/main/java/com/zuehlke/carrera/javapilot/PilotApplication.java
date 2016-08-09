@@ -45,7 +45,7 @@ public class PilotApplication implements CommandLineRunner{
     private PilotService pilotService;
 
     @Autowired
-    private PilotProperties settings;
+    private PilotProperties pilotProperties;
 
     private enum Function {
         simulator,
@@ -95,7 +95,7 @@ public class PilotApplication implements CommandLineRunner{
     private void connectWithProtocol(Protocol protocol, Function function ) {
 
         switch ( protocol ) {
-            case rabbit:
+            case rabbit: // only supporting rabbit for the time being
                 // if not "only simulator", then connect the pilot
                 if (!function.equals(Function.simulator)) {
                     connectPilotWithRabbit(pilotService.getPilotActor());
@@ -111,13 +111,13 @@ public class PilotApplication implements CommandLineRunner{
     private void connectPilotWithRabbit(ActorRef pilot) {
 
         Client client = new RabbitClient();
-        client.connect(settings.getRabbitUrl());
+        client.connect(pilotProperties.getRabbitUrl());
         Serializer serializer = new JacksonSerializer();
-        PilotApi pilotApi = new DirectExchangePilotApiImpl(client, new PilotToRelayChannelNames(settings.getName()),
-                new RoutingKeyNames(settings.getName()), serializer);
+        PilotApi pilotApi = new DirectExchangePilotApiImpl(client, new PilotToRelayChannelNames(pilotProperties.getName()),
+                new RoutingKeyNames(pilotProperties.getName()), serializer);
 
         ConnectionFactoryFromPilots factory = new RabbitConnectionFactoryFromPilots(pilotApi,
-                settings.getName(), settings.getAccessCode(), settings.getRabbitUrl());
+                pilotProperties.getName(), pilotProperties.getAccessCode(), pilotProperties.getRabbitUrl());
 
         PilotToRelayConnection pilotConnection = factory.create(
                 (start)->pilot.tell(start, ActorRef.noSender()),
@@ -135,10 +135,10 @@ public class PilotApplication implements CommandLineRunner{
     private void connectSimulatorWithRabbit (RaceTrackSimulatorSystem system ) {
 
         Client client = new RabbitClient();
-        client.connect(settings.getRabbitUrl());
+        client.connect(pilotProperties.getRabbitUrl());
         Serializer serializer = new JacksonSerializer();
         TowardsPilotApi towardsPilotApi = new SimulatorTowardsPilotApiImpl(
-                client, new PilotToRelayChannelNames(settings.getName()), serializer);
+                client, pilotProperties.getName(), new RoutingKeyNames(pilotProperties.getName()), serializer);
 
         ConnectionFactoryTowardsPilots factory = new RabbitConnectionFactoryTowardsPilots(towardsPilotApi);
 
@@ -146,7 +146,7 @@ public class PilotApplication implements CommandLineRunner{
 
         system.register ( towardsPilotsConnection );
 
-        towardsPilotsConnection.connect(settings.getRabbitUrl());
+        towardsPilotsConnection.connect(pilotProperties.getRabbitUrl());
 
         simulatorService.setPilotConnection ( towardsPilotsConnection );
     }

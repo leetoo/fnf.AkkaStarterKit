@@ -2,6 +2,7 @@ package com.zuehlke.carrera.javapilot.show;
 
 import com.rabbitmq.client.*;
 import com.zuehlke.carrera.api.channel.PilotToRelayChannelNames;
+import com.zuehlke.carrera.api.channel.RoutingKeyNames;
 import com.zuehlke.carrera.api.client.PublishException;
 import com.zuehlke.carrera.api.seralize.JacksonSerializer;
 import com.zuehlke.carrera.relayapi.messages.*;
@@ -15,6 +16,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Demonstrates the usage of the low level Rabbit API for the FnF challenge
+ *
+ *
+ *
  */
 public class DemoLowLevelAPI {
 
@@ -31,11 +35,30 @@ public class DemoLowLevelAPI {
 
     private Connection connection;
     private PilotToRelayChannelNames channelNames = new PilotToRelayChannelNames(PILOT_NAME);
+    private RoutingKeyNames routingKeyNames = new RoutingKeyNames(PILOT_NAME);
 
     private static final Logger logger = LoggerFactory.getLogger("DEMOS");
 
-    private Map<String, Channel> channels = new HashMap<>();
     private AtomicInteger numberOfMessagesReceived = new AtomicInteger(0);
+
+
+    private class ChannelAndQueueName {
+        Channel channel;
+        String queueName;
+        ChannelAndQueueName(Channel channel, String queueName ) {
+            this.channel = channel;
+            this.queueName = queueName;
+        }
+    }
+    private class ChannelAndKeyAndQueueName extends ChannelAndQueueName {
+        String keyName;
+        ChannelAndKeyAndQueueName(Channel channel, String keyName, String queueName ) {
+            super(channel, queueName);
+            this.keyName = keyName;
+        }
+    }
+
+    private Map<String, ChannelAndQueueName> channels = new HashMap<>();
 
     public static void main ( String [] args ) {
 
@@ -77,21 +100,26 @@ public class DemoLowLevelAPI {
 
     /**
      * creates channels from the pilot to the relay and the other way round
+     * https://www.rabbitmq.com/tutorials/tutorial-four-java.html
      */
     private void createChannelsInBothDirections() {
 
         // From the pilot to the relay (and then to racetrack)
+        // This is a fixed named queue "app/pilots/announce"
         createQueue( "pilot lifesigns", channelNames.announce());
-        createQueue( "power controls", channelNames.powerControl());
+
+        // Also rom the pilot to the relay (and then to racetrack)
+        // This is a queue linked to an exchange by a routing key
+        createRouting( "power controls", routingKeyNames.powerControl());
 
         // from the racetrack (via relay) to the pilot
-        createQueue( "sensor values", channelNames.sensor());
-        createQueue( "velocity", channelNames.velocity());
-        createQueue( "penalty", channelNames.penalty());
-        createQueue( "start", channelNames.raceStart());
-        createQueue( "stop", channelNames.raceStop());
-        createQueue( "round passed", channelNames.roundPassed());
-
+        // These are all queues linked to an exchange by their resp. routing key
+        createRouting( "sensor values", routingKeyNames.sensor());
+        createRouting( "velocity", routingKeyNames.velocity());
+        createRouting( "penalty", routingKeyNames.penalty());
+        createRouting( "start", routingKeyNames.raceStart());
+        createRouting( "stop", routingKeyNames.raceStop());
+        createRouting( "round passed", routingKeyNames.roundPassed());
     }
 
     /**
@@ -101,23 +129,42 @@ public class DemoLowLevelAPI {
 
         // from the pilot
         publish(channelNames.announce(), announcement(PILOT_NAME));
-        publish(channelNames.powerControl(), powerControl(PILOT_NAME));
+        publish(routingKeyNames.powerControl(), powerControl(PILOT_NAME));
 
         // from the racetrack/relay
-        publish(channelNames.raceStart(), raceStart(PILOT_NAME));
-        publish(channelNames.raceStop(), raceStop(PILOT_NAME));
-        publish(channelNames.sensor(), sensor());
-        publish(channelNames.roundPassed(), roundPassed(PILOT_NAME));
-        publish(channelNames.velocity(), velocity());
-        publish(channelNames.penalty(), penalty());
+        publish(routingKeyNames.raceStart(), raceStart(PILOT_NAME));
+        publish(routingKeyNames.raceStop(), raceStop(PILOT_NAME));
+        publish(routingKeyNames.sensor(), sensor());
+        publish(routingKeyNames.roundPassed(), roundPassed(PILOT_NAME));
+        publish(routingKeyNames.velocity(), velocity());
+        publish(routingKeyNames.penalty(), penalty());
     }
 
+    private ChannelAndKeyAndQueueName createChannelFromExchange (String routingKeyName ) {
 
+        try {
+            Channel channel = connection.createChannel();
+            channel.exchangeDeclare(PILOT_NAME, "direct");
+            String queueName = channel.queueDeclare().getQueue();
+            return new ChannelAndKeyAndQueueName(channel, routingKeyName, queueName );
+        } catch ( Exception e ) {
+            logger.error ( "Couldn't create channel for routing: {}", routingKeyName);
+            e.printStackTrace();
+            System.exit(-1);
+            return null;
+        }
+    }
 
-    private void createQueue(String messageDescription, String channelName ) {
-        logger.info("creating channel for {}: {}", messageDescription, channelName);
-        Channel channel = createQueue(channelName);
-        channels.put(channelName, channel );
+    private void createQueue(String messageDescription, String queueName ) {
+        logger.info("creating queue for {}: {}", messageDescription, queueName);
+        Channel channel = createChannel(queueName);
+        channels.put(queueName, new ChannelAndQueueName(channel, queueName) );
+    }
+
+    private void createRouting(String messageDescription, String routingKeyName ) {
+        logger.info("creating routing for {}: {}", messageDescription, routingKeyName);
+        ChannelAndKeyAndQueueName caq = createChannelFromExchange(routingKeyName);
+        channels.put(caq.keyName, caq);
     }
 
     /**
@@ -127,36 +174,49 @@ public class DemoLowLevelAPI {
     private void registerConsumers() {
 
         // Life signs
-        registerChannel("relay", channelNames.announce());
+        registerConsumerOnQueue("relay", channelNames.announce());
 
         // Power Control
-        registerChannel("relay", channelNames.powerControl());
+        registerConsumerOnExchange("relay", routingKeyNames.powerControl());
 
         // Race Start Messages
-        registerChannel("pilot", channelNames.raceStart());
+        registerConsumerOnExchange("pilot", routingKeyNames.raceStart());
 
         // Race Stop Messages
-        registerChannel("pilot", channelNames.raceStop());
+        registerConsumerOnExchange("pilot", routingKeyNames.raceStop());
 
         // Sensor values
-        registerChannel("pilot", channelNames.sensor());
+        registerConsumerOnExchange("pilot", routingKeyNames.sensor());
 
         // round times
-        registerChannel("pilot", channelNames.roundPassed());
+        registerConsumerOnExchange("pilot", routingKeyNames.roundPassed());
 
         // velocity
-        registerChannel("pilot", channelNames.velocity());
+        registerConsumerOnExchange("pilot", routingKeyNames.velocity());
 
         // penalty
-        registerChannel("pilot", channelNames.penalty());
+        registerConsumerOnExchange("pilot", routingKeyNames.penalty());
 
     }
 
-    private void registerChannel ( String function, String channelName ) {
+    private void registerConsumerOnQueue(String function, String queueName ) {
         try {
-            logger.info("registring as {} for {}", function, channelName);
-            Channel channel = channels.get(channelName);
-            channel.basicConsume(channelName, createConsumer(channel, function));
+            logger.info("registering as {} on {}", function, queueName);
+            Channel channel = channels.get(queueName).channel;
+            channel.basicConsume(queueName, createConsumer(channel, function));
+        } catch ( Exception e ) {
+            logger.error("Couldn't register opposite listeners");
+            System.exit(-1);
+        }
+    }
+
+    private void registerConsumerOnExchange(String function, String routingKey ) {
+        try {
+            logger.info("registering as {} on exchange with {}", function, routingKey);
+            Channel channel = channels.get(routingKey).channel;
+            String queueName = channels.get(routingKey).queueName;
+            channel.queueBind(queueName, PILOT_NAME, routingKey);
+            channel.basicConsume(queueName, createConsumer(channel, function));
         } catch ( Exception e ) {
             logger.error("Couldn't register opposite listeners");
             System.exit(-1);
@@ -165,12 +225,19 @@ public class DemoLowLevelAPI {
 
 
 
-    public void publish(String channelName, String message) {
-        logger.info("Publishing {} to channel: {}", message, channelName);
+    public void publish(String keyOrQueueName, String message) {
         try {
-            Channel channel = channels.get(channelName);
+            Channel channel = channels.get(keyOrQueueName).channel;
+            String queueName = channels.get(keyOrQueueName).queueName;
             AMQP.BasicProperties publishProperties = createPublishProperties();
-            channel.basicPublish("", channelName, publishProperties, message.getBytes());
+
+            if ( queueName.equals(keyOrQueueName) ) {
+                logger.info("Publishing {} to queue: {}", message, keyOrQueueName);
+                channel.basicPublish("", queueName, publishProperties, message.getBytes());
+            } else {
+                logger.info("Publishing {} to exchange {} and with key {}", message, PILOT_NAME, keyOrQueueName);
+                channel.basicPublish(PILOT_NAME, keyOrQueueName, publishProperties, message.getBytes());
+            }
         } catch (IOException e) {
             throw new PublishException("Could not publish message", e);
         }
@@ -224,7 +291,7 @@ public class DemoLowLevelAPI {
      * @param channelName the name of the queue*
      * @return the new channel
      */
-    private Channel createQueue(String channelName ) {
+    private Channel createChannel(String channelName ) {
         try {
             Channel channel = connection.createChannel();
             boolean durable = true;
@@ -289,8 +356,8 @@ public class DemoLowLevelAPI {
 
     private void shutdown() {
         try {
-            for (Channel channel : channels.values()) {
-                channel.close();
+            for (ChannelAndQueueName caq : channels.values()) {
+                caq.channel.close();
             }
             connection.close();
         } catch ( Exception e ) {

@@ -2,20 +2,18 @@ spring:
     application:
         name: javapilot
 
-server:       # Note that the port MUST be 80 to work in SC cloud!
-  port: 8081  # Note that the port SHOULD NOT be 80 to work locally.
+server:
+  port: 8099
 
 javapilot:
 
-    #name:           Testosterons  # Id of this simulator. Should be unique.
-    #accessCode:     krodudida # the access code provided by the race management at registration
+    name:           Bernie's Burners
+    accessCode:     tenoraka
 
-    name: Wolfie's Wolverines
-    accessCode: züwermepa
+    #name: Wolfie's Wolverines
+    #accessCode: züwermepa
 
-    rabbitUrl:      localhost #192.168.1.142
-
-    #relayUrl:  ws://relay2.beta.swisscloud.io/ws/rest/messages # Address of relay in SC cloud !
+    rabbitUrl:      192.168.0.24 #localhost
 
 simulator:
   name: embedded  # Id of this simulator

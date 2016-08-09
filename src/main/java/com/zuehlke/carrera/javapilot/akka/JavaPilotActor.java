@@ -40,7 +40,7 @@ public class JavaPilotActor extends UntypedActor {
 	public JavaPilotActor(PilotProperties properties) {
 
 		this.properties = properties;
-		strategy = getContext().actorOf(PowerUpUntilPenalty.props(getSelf(), 1500));
+		strategy = getContext().actorOf(PowerUpUntilPenalty.props(getSelf()));
 		recorder = getContext().actorOf(RaceRecorderActor.props(getSelf()));
 	}
 
@@ -78,7 +78,7 @@ public class JavaPilotActor extends UntypedActor {
 				replaying = false;
 			} else if (message instanceof RaceStartMessage) {
 				record(message);
-				handleRaceStart();
+				handleRaceStart((RaceStartMessage)message);
 
 			} else if (message instanceof RaceStopMessage) {
 				record(message);
@@ -135,7 +135,7 @@ public class JavaPilotActor extends UntypedActor {
 	}
 
 	/**
-	 * Action request from the processing topology
+	 * Action request from the processing strategy
 	 * 
 	 * @param powerValue
 	 *            the new power value to be requested on the track
@@ -144,7 +144,7 @@ public class JavaPilotActor extends UntypedActor {
 
 		long now = System.currentTimeMillis();
 
-		record(new PowerControl(powerValue, "starterkit", "tikretrats", now));
+		record(new PowerControl(powerValue, "", "", now));
 
 		if (!replaying) {
 			relayConnection.send(new PowerControl(powerValue, properties.getName(), properties.getAccessCode(), now));
@@ -203,11 +203,13 @@ public class JavaPilotActor extends UntypedActor {
 
 	private void handleRaceStop() {
 		LOGGER.info("received race stop");
+		getContext().stop(strategy);
 	}
 
-	private void handleRaceStart() {
-		strategy = getContext().actorOf(PowerUpUntilPenalty.props(getSelf(), 1500));
+	private void handleRaceStart(RaceStartMessage message) {
+		strategy = getContext().actorOf(PowerUpUntilPenalty.props(getSelf()));
 		long now = System.currentTimeMillis();
 		LOGGER.info("received race start at " + new LocalDateTime(now).toString());
+		strategy.tell(message, getSelf());
 	}
 }
