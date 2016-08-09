@@ -13,7 +13,8 @@ javapilot:
     #name: Wolfie's Wolverines
     #accessCode: züwermepa
 
-    rabbitUrl:      192.168.0.24 #localhost
+    #rabbitUrl:     192.168.0.24
+    rabbitUrl:      localhost
 
 simulator:
   name: embedded  # Id of this simulator
