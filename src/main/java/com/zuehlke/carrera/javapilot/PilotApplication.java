@@ -149,5 +149,7 @@ public class PilotApplication implements CommandLineRunner{
         towardsPilotsConnection.connect(pilotProperties.getRabbitUrl());
 
         simulatorService.setPilotConnection ( towardsPilotsConnection );
+
+        client.subscribe("/app/pilots/announce", (m)->System.out.print("."));
     }
 }
