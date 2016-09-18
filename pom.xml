@@ -34,7 +34,7 @@
         <dependency>
             <groupId>com.zuehlke.fastandfurious</groupId>
             <artifactId>fnf.clientapi</artifactId>
-            <version>1.1.8</version>
+            <version>1.1.10</version>
         </dependency>
 
         <dependency>
