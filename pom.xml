@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.zuehlke.fastandfurious</groupId>
             <artifactId>fnf.simulib</artifactId>
-            <version>0.9.6</version>
+            <version>1.0.0</version>
         </dependency>
 
 
